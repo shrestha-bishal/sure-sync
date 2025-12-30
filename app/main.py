@@ -57,5 +57,4 @@ while True:
             log(f"Error processing {file_name}: {e}")
             move_file(file_path, FAILED_DIR)
 
-    log("Consuming")
     time.sleep(LOOKUP_INTERVAL)
