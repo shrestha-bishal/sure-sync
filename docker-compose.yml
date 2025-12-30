@@ -1,0 +1,10 @@
+services:
+  sure-sync:
+    build: .
+    container_name: sure-sync
+    env_file:
+      - .env
+    volumes:
+      - ${CONSUME_PATH}:/app/consume
+      - ${CONSUME_PATH}/processed:/app/processed
+    restart: unless-stopped
