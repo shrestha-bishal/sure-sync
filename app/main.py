@@ -37,6 +37,7 @@ while True:
 
         try:
             parsed_data = parser.parse(file_path)
+            log(f"{parsed_data}")
             log(f"Parsed data from {file_name}")
             move(file_path, PROCESSED_DIR)
 
