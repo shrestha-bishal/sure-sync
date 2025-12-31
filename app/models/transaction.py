@@ -1,3 +1,6 @@
+from datetime import datetime
+from decimal import Decimal
+
 class Transaction:
     def __init__(
         self,
@@ -48,6 +51,29 @@ class Transaction:
             data["tag_ids"] = self.tag_ids
 
         return data
+    
+    @classmethod
+    def from_ofx_data(cls, sure_account_id, data):
+        txn_date = data.get("date")
 
-
+        if isinstance(txn_date, datetime):
+            txn_date = txn_date.date().isoformat()
         
+        txn_amount = data.get("amount")
+        if isinstance(txn_amount, Decimal):
+            txn_amount = float(txn_amount)
+        
+        txn_description = data.get("description") or data.get("payee") or "Transaction"
+        txn_nature = "income" if data.get("type") == "credit" else "expense"
+
+        transaction = Transaction(
+            account_id=sure_account_id,
+            date=txn_date,
+            amount=txn_amount,
+            name=txn_description,
+            description=txn_description,
+            nature=txn_nature
+        )
+
+        return transaction
+

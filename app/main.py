@@ -82,23 +82,26 @@ while True:
 
         try:
             parsed_data = parser.parse(file_path)
+            log(f"Parsed data from {file_name}")
+            log(f"{parsed_data}")
+
             for data in parsed_data:
                 bank_id = data.get("bank_id")
                 account_id = data.get("account_id")
-                key = bank_id
-                
-                if account_id not in valid_mappings:
-                    log(f"Account number {account_id} is not mapped. Skipping.")
+                key = f"{bank_id}:{account_id}"
+                mapping = valid_mappings.get(key)
+
+                if not mapping:
+                    log(f"Account {key} not mapped. Skipping.")
                     continue
+                
+                sure_account_id = mapping.get("sure_account_id")
+                transaction = Transaction.from_ofx_data(
+                    sure_account_id=sure_account_id,
+                    data=data)
 
-                transaction = Transaction(
-                    account_id=,
-                    date=,
-                    amount=,
-                )
+                api_client.create_transaction(transaction=transaction)
 
-            log(f"Parsed data from {file_name}")
-            log(f"{parsed_data}")
             move(file_path, PROCESSED_DIR)
 
         except ValueError as e:
