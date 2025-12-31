@@ -40,7 +40,7 @@ api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
 # Fetching Sure account information
 log("Fetching Sure account information")
 sure_accounts = api_client.get_accounts()
-#sure_account_ids = {a['id'] for a in sure_accounts}
+sure_account_ids = {a['id'] for a in sure_accounts}
 log(f"Found {len(sure_accounts)} Sure accounts")
 
 # Retrieve the mapped accounts
@@ -50,11 +50,22 @@ log(f"Found {len(account_mappings)} account mappings")
 
 # Validate mappings
 log("Validating account mappings against Sure accounts")
+valid_mappings = {}
 invalid_mappings = []
 for ofx_key, mapping in account_mappings.items():
-    log(ofx_key)
-    log(mapping)
+    sure_id = mapping.get("sure_account_id")
+    if sure_id in sure_account_ids:
+        valid_mappings[ofx_key] = mapping
 
+    else:    
+        log(f"Mapping for '{ofx_key} points to non-existent Sure account ID '{sure_id}''")
+        invalid_mappings.append(ofx_key)
+
+log(f"{len(valid_mappings)} valid account mappings will be used")
+if invalid_mappings:
+    log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
+
+# Consuming
 while True:
     if not os.path.exists(CONSUME_PATH):
         log(f"Consume path does not exist: {CONSUME_PATH}")
