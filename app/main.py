@@ -83,6 +83,7 @@ while True:
         if not os.path.isfile(file_path):
             continue
 
+        # Processing the data
         try:
             parsed_data = parser.parse(file_path)
             log(f"Parsed data from {file_name}")
@@ -103,7 +104,7 @@ while True:
                     sure_account_id=sure_account_id,
                     data=data)
 
-                # api_client.create_transaction(transaction=transaction) 
+                api_client.create_transaction(transaction=transaction) 
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
 
