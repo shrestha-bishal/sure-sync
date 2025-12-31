@@ -2,6 +2,7 @@ import os
 import time
 from helpers.logger import log
 from helpers.file import move
+from datetime import datetime
 from parsers.parser import Parser
 from clients.api_client import ApiClient
 from models.transaction import Transaction
@@ -75,6 +76,8 @@ while True:
 
     for file_name in os.listdir(CONSUME_PATH):
         file_path = os.path.join(CONSUME_PATH, file_name)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        new_file_name = f"{timestamp} {file_name}"
 
         # Skip directories (processed/, failed/)
         if not os.path.isfile(file_path):
@@ -100,16 +103,16 @@ while True:
                     sure_account_id=sure_account_id,
                     data=data)
 
-                api_client.create_transaction(transaction=transaction)
+                # api_client.create_transaction(transaction=transaction) 
 
-            move(file_path, PROCESSED_DIR)
+            move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
 
         except ValueError as e:
             log(f"Unsupported file {file_name}: {e}")
-            move(file_path, FAILED_DIR)
-        
+            move(file_path, os.path.join(FAILED_DIR, new_file_name))
+
         except Exception as e:
             log(f"Error processing {file_name}: {e}")
-            move(file_path, FAILED_DIR)
+            move(file_path, os.path.join(FAILED_DIR, new_file_name))
 
     time.sleep(LOOKUP_INTERVAL)
