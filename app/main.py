@@ -4,6 +4,7 @@ from helpers.logger import log
 from helpers.file import move
 from parsers.parser import Parser
 from clients.api_client import ApiClient
+from models.transaction import Transaction
 
 # contants
 CONSUME_PATH = "/app/consume"
@@ -81,8 +82,23 @@ while True:
 
         try:
             parsed_data = parser.parse(file_path)
-            log(f"{parsed_data}")
+            for data in parsed_data:
+                bank_id = data.get("bank_id")
+                account_id = data.get("account_id")
+                key = bank_id
+                
+                if account_id not in valid_mappings:
+                    log(f"Account number {account_id} is not mapped. Skipping.")
+                    continue
+
+                transaction = Transaction(
+                    account_id=,
+                    date=,
+                    amount=,
+                )
+
             log(f"Parsed data from {file_name}")
+            log(f"{parsed_data}")
             move(file_path, PROCESSED_DIR)
 
         except ValueError as e:

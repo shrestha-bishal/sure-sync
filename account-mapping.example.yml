@@ -18,21 +18,24 @@
 # --------------------------------------------------------
 
 accounts:
-  "<BANK_CODE>:<BANK_ID>:<ACCOUNT_NUMBER>":
-    sure_account_id: "<SURE_ACCOUNT_ID>"
-    name: "<Human readable account name>"
-    currency: "AUD"
+  "<BANK_ID>:<ACCOUNT_NUMBER>":             # Mandatory
+    sure_account_id: "<SURE_ACCOUNT_ID>"    # Mandatory
+    currency: "AUD"                         # Mandatory
+    bank_name: "Bank"
+    account_name: "<Human readable account name>"
     notes: null
 
   # Example real mappings
-  "ANZ:123456:987654321":
+  "123456:987654321":
     sure_account_id: "f21234-ba321-43226-b522-5c6fqdas26"
-    name: "Savings Account"
+    bank_name: "Bank"
+    account_name: "Savings Account"
     currency: "AUD"
     notes: "Primary savings account"
 
-  "CBA:654321:112233445":
+  "654321:112233445":
     sure_account_id: "f21234-ba321-43226-b522-5c6fqdas27"
-    name: "Current Account"
+    bank_name: "Bank"
+    account_name: "Current Account"
     currency: "AUD"
     notes: null
