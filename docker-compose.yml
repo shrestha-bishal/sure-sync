@@ -7,4 +7,5 @@ services:
     volumes:
       - ${CONSUME_PATH}:/app/consume
       - ${CONSUME_PATH}/processed:/app/processed
+      - ./account-mapping.yml:/app/account-mapping.yml:ro
     restart: unless-stopped

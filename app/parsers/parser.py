@@ -1,9 +1,11 @@
 from parsers.ofx_parser import OfxParser
+from parsers.account_mapping_parser import AccountMappingParser
 
 class Parser:
     def __init__(self):
         self.parsers = {
             "ofx": OfxParser(),
+            "yml": AccountMappingParser()
         }
 
     def parse(self, file_path):
