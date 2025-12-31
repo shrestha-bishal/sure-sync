@@ -29,3 +29,14 @@ class BaseClient:
             return res.json()
         except ValueError:
             return res.text
+        
+    def post(self, path, json=None):
+        res = requests.post(
+            f"{self.base_url}{path}",
+            headers=self._headers(),
+            json=json,
+            timeout=10,
+        )
+
+        res.raise_for_status()
+        return res.json()
