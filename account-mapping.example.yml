@@ -1,0 +1,38 @@
+# --------------------------------------------------------
+# Account Mapping Configuration (Example)
+# --------------------------------------------------------
+# This file maps bank-side account identifiers (from OFX)
+# to Sure Finance account IDs.
+#
+# Usage:
+#   1. Copy this file to `account-mapping.yml`
+#   2. Replace the placeholder values with real accounts
+#   3. Keep the real file gitignored
+#
+# Important fields:
+#   - Bank code / ID
+#   - Account number
+#   - Sure Finance account ID
+#   - Currency
+# Other fields (name, notes) are optional and for readability only.
+# --------------------------------------------------------
+
+accounts:
+  "<BANK_CODE>:<BANK_ID>:<ACCOUNT_NUMBER>":
+    sure_account_id: "<SURE_ACCOUNT_ID>"
+    name: "<Human readable account name>"
+    currency: "AUD"
+    notes: null
+
+  # Example real mappings
+  "ANZ:123456:987654321":
+    sure_account_id: "f21234-ba321-43226-b522-5c6fqdas26"
+    name: "Savings Account"
+    currency: "AUD"
+    notes: "Primary savings account"
+
+  "CBA:654321:112233445":
+    sure_account_id: "f21234-ba321-43226-b522-5c6fqdas27"
+    name: "Current Account"
+    currency: "AUD"
+    notes: null

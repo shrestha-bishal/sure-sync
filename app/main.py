@@ -22,11 +22,6 @@ if not API_KEY:
 log("App started")
 log("API config validated")
 
-api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
-
-log("Fetching account information")
-log(api_client.get_accounts())
-
 os.makedirs(CONSUME_PATH, exist_ok=True)
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 os.makedirs(FAILED_DIR, exist_ok=True)
@@ -35,6 +30,11 @@ log(f"Consume directory   : {VOLUME_CONSUME_PATH}")
 log(f"Processed directory : {VOLUME_CONSUME_PATH}/processed")
 log(f"Failed directory    : {VOLUME_CONSUME_PATH}/failed")
 log(f"Scan interval       : {LOOKUP_INTERVAL}s")
+
+api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
+
+log("Fetching account information")
+log(api_client.get_accounts())
 
 parser = Parser()
 

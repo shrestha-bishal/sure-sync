@@ -9,6 +9,7 @@ class OfxParser:
         for account in ofx.accounts:
             for transaction in account.statement.transactions:
                 data.append({
+                    "bank_id":account.bank_id,
                     "account_id": account.account_id,
                     "transaction_id": transaction.id,
                     "type": transaction.type,
