@@ -72,7 +72,8 @@ class Transaction:
             amount=txn_amount,
             name=txn_description,
             description=txn_description,
-            nature=txn_nature
+            nature=txn_nature,
+            currency=data.get("currency")
         )
 
         return transaction

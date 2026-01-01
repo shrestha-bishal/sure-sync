@@ -13,16 +13,14 @@
 #   - Bank code / ID
 #   - Account number
 #   - Sure Finance account ID
-#   - Currency
 # Other fields (name, notes) are optional and for readability only.
 # --------------------------------------------------------
 
 accounts:
   "<BANK_ID>:<ACCOUNT_NUMBER>":             # Mandatory
     sure_account_id: "<SURE_ACCOUNT_ID>"    # Mandatory
-    currency: "AUD"                         # Mandatory
     bank_name: "Bank"
-    account_name: "<Human readable account name>"
+    account_name: "<Account name>"
     notes: null
 
   # Example real mappings
@@ -30,12 +28,10 @@ accounts:
     sure_account_id: "f21234-ba321-43226-b522-5c6fqdas26"
     bank_name: "Bank"
     account_name: "Savings Account"
-    currency: "AUD"
     notes: "Primary savings account"
 
   "654321:112233445":
     sure_account_id: "f21234-ba321-43226-b522-5c6fqdas27"
     bank_name: "Bank"
     account_name: "Current Account"
-    currency: "AUD"
     notes: null

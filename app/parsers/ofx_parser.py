@@ -17,5 +17,6 @@ class OfxParser:
                     "amount": transaction.amount,
                     "description": transaction.memo,
                     "payee": getattr(transaction, "payee", None),
+                    "currency": account.statement.currency
                 })
         return data
