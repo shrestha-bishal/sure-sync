@@ -1,2 +1,4 @@
 .env
 account-mapping.yml
+__pycache__/
+*.log

@@ -58,11 +58,12 @@ class TransactionsClient:
 
             for existing in transactions:
                 existing_amount = self.parse_amount(existing.get("amount", ""))
+
                 if (
                     normalize_name(existing.get("name")) == normalize_name(transaction.name)
                     and existing.get("currency").upper() == transaction.currency.upper()
                     and existing_amount is not None
-                    and abs(existing_amount - float(transaction.amount)) < 0.01
+                    # and abs(existing_amount - float(transaction.amount)) < 0.01
                 ):
                     return True
                 

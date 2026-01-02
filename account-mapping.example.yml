@@ -35,3 +35,9 @@ accounts:
     bank_name: "Bank"
     account_name: "Current Account"
     notes: null
+  
+  ":1231231233123": # If no bank id is present
+    sure_account_id: "f21234-ba321-43226-b522-5c6fqdas27"
+    bank_name: "Bank"
+    account_name: "Mastercard"
+    notes: null
