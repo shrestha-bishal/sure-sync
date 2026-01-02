@@ -27,17 +27,24 @@ Sync OFX and CSV transactions files to the Sure (Maybe) Finance.
 
 
 ---
-
 ## Quick Start
-
-- Clone the repository
+- Create the directory 
 ```bash
-git clone https://github.com/shrestha-bishal/sure-sync.git
-cd sure-sync
+mkdir ~/.docker-apps/sure-sync
+cd ~/.docker-apps/sure-sync
 ```
+
+- Download configuration files from the latest release:
+
+```bash
+wget -O docker-compose.yml https://github.com/shrestha-bishal/sure-sync/releases/latest/download/docker-compose.yml
+wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/latest/download/example.env
+wget -O account-mapping.example.yml https://github.com/shrestha-bishal/sure-sync/releases/latest/download/account-mapping.example.yml
+```
+
 - Configure environment variables
 ```bash
-cp .env.example .env
+cp example.env .env
 ```
 Edit `.env` to set your Sure API credentials and folder paths.
 
