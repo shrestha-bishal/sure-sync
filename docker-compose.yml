@@ -1,6 +1,6 @@
 services:
   sure-sync:
-    image: ghci.io/shrestha-bishal/sure-sync:latest
+    image: ghcr.io/shrestha-bishal/sure-sync:latest
     container_name: sure-sync
     env_file:
       - .env
