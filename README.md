@@ -35,10 +35,17 @@ cd ~/.docker-apps/sure-sync
 ```
 
 - Download configuration files from the latest release:
-
+> Download the `docker-compose.yml`
 ```bash
 wget -O docker-compose.yml https://github.com/shrestha-bishal/sure-sync/releases/latest/download/docker-compose.yml
+```
+> Download the `example.env`
+```bash
 wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/latest/download/example.env
+```
+
+> Download the `account-mapping.example.env`
+```bash
 wget -O account-mapping.example.yml https://github.com/shrestha-bishal/sure-sync/releases/latest/download/account-mapping.example.yml
 ```
 
