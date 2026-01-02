@@ -11,6 +11,7 @@ Sync OFX and CSV transactions files to the Sure (Maybe) Finance.
 - Archiving – Moves processed OFX files to a local archive folder for record-keeping.
 - Localised control – Users maintain full control of credentials, configuration, and data without storing secrets in the repository.
 
+<img width="813" height="293" alt="image" src="https://github.com/user-attachments/assets/980dbeae-1f8d-40ba-8b17-8f18693f4197" />
 
 ## Features
 - Localised, file-based workflow (no need for bank APIs)  
