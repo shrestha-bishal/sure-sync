@@ -63,7 +63,7 @@ MIT License. See [LICENSE](./LICENSE)  for details.
 ### Funding & Sponsorship
 Sure Sync is an open-source tool developed and maintained to automate the import of bank transactions into the Sure finance platform. It simplifies financial data workflows and ensures reliable, localised syncing for users without public bank APIs.
 
-If you or your organisation find this project valuable, please consider supporting its ongoing development. Your sponsorship helps sustain long-term maintenance, improve features, enhance documentation, and maintain compatibility with future Sure API updates—while keeping the project free and open for the community.
+If you or your organisation find this project valuable, please consider supporting its ongoing development. Your sponsorship helps sustain long-term maintenance, improve features, enhance documentation, and maintain compatibility with future Sure API updates while keeping the project free and open for the community.
 
 As a token of appreciation, sponsors may have their logo and link featured in the project README and documentation. Priority support, early access to new features, or custom enhancements may also be offered where appropriate.
 
@@ -80,4 +80,4 @@ As a token of appreciation, sponsors may have their logo and link featured in th
 [![GitHub](https://img.shields.io/badge/GitHub-Profile-black?logo=github)](https://github.com/shrestha-bishal)  
 [![Repo](https://img.shields.io/badge/Repository-GitHub-black?logo=github)](https://github.com/shrestha-bishal/sure-sync)
 
-© 2025 Bishal Shrestha, All rights reserved  
+© 2026 Bishal Shrestha, All rights reserved  
