@@ -25,7 +25,6 @@ Sync OFX and CSV transactions files to the Sure (Maybe) Finance.
 - A Sure account with API access  
 - OFX files exported from your bank  
 
-
 ---
 ## Quick Start
 - Create the directory 
@@ -46,6 +45,10 @@ wget -O account-mapping.example.yml https://github.com/shrestha-bishal/sure-sync
 ```bash
 cp example.env .env
 ```
+or 
+```bash
+cp .env.example .env 
+```
 Edit `.env` to set your Sure API credentials and folder paths.
 
 - Configure account mapping
@@ -55,6 +58,7 @@ cp account-mapping.example.yml account-mapping.yml
 Edit `account-mapping.yml` to map your OFX accounts to Sure accounts. Keep this file gitignored.
 
 - Start the service
+> Make sure the ~~Maybe~~ Sure is running before composing.
 ```bash
 docker compose up -d
 ```
