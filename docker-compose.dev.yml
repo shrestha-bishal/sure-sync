@@ -1,7 +1,10 @@
 services:
-  sure-sync:
-    build: .
-    container_name: sure-sync
+  worker:
+    build: 
+      context: .
+      target: worker-stage
+    container_name: sure-sync-worker
+    #command: python -u app/main.py
     env_file:
       - .env
     volumes:
@@ -9,3 +12,14 @@ services:
       - ${CONSUME_PATH}/processed:/app/processed
       - ./account-mapping.yml:/app/account-mapping.yml:ro
     restart: unless-stopped
+  
+  web:
+    build: 
+      context: .
+      target: web-stage
+    container_name: sure-sync-web
+    ports:
+      - "9000:8000"
+    restart: unless-stopped
+    depends_on:
+      - worker

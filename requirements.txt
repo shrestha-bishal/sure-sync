@@ -1,3 +1,5 @@
 ofxparse==0.21
 requests
 pyyaml
+fastapi
+uvicorn
