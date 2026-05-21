@@ -6,4 +6,4 @@ app = FastAPI()
 #app.include_router(router)
 
 # Serve the static files for the dashboard
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
+app.mount("/", StaticFiles(directory="web/static", html=True), name="static")
