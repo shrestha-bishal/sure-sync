@@ -1,0 +1,81 @@
+body {
+    margin: 0;
+    padding: 24px;
+    background: #f6f7fb;
+    color: #111827;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-radius: 12px;
+}
+
+.stat-row.processed {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+}
+
+.stat-row.failed {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+}
+
+.stat-label {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.stat-row.processed .stat-label {
+    color: #047857;
+}
+
+.stat-row.failed .stat-label {
+    color: #b91c1c;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-row.processed .value {
+    color: #065f46;
+}
+
+.stat-row.failed .value {
+    color: #991b1b;
+}

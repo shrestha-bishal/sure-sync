@@ -1,4 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <title> Sure Sync Web</title>
+    <head>
+        <title>Sure Sync Web</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div class="grid">
+            <div class="card">
+                <div class="label">
+                    Files Log
+                </div>
+
+                <div class="stats">
+                    <div class="stat-row processed">
+                        <div class="stat-label">Processed</div>
+                        <div class="value" id="files_processed">0</div>
+                    </div>
+
+                    <div class="stat-row failed">
+                        <div class="stat-label">Failed</div>
+                        <div class="value" id="files_failed">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>
