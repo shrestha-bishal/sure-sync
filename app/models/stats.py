@@ -1,5 +1,7 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from app.helpers.file import read_json, write_json
+from typing import List
+from datetime import datetime
 
 @dataclass
 class Metric:
@@ -8,18 +10,25 @@ class Metric:
     failed: int = 0
 
 @dataclass
+class Account:
+    bank_name: str = "Unknown Bank"
+    account_name: str = "Unnamed Account"
+    account_num: str | None = None
+    last_transaction: datetime | None = "-"
+    last_sync: datetime | None = "-"
+
+@dataclass
 class AppStats:
-    metrics: Metric
+    metrics: Metric = field(default_factory=Metric)
+    accounts: List[Account] = field(default_factory=list)
     last_file: str = "-"
     last_error: str = "-"
 
     @classmethod
-    def load(cls, file_path: str) -> "AppStats":
-        stats_data = read_json(file_path)
+    def load(cls, valid_mappings: dict, file_path: str) -> "AppStats":
+        stats_data = read_json(file_path) or {}
 
-        if not stats_data:
-            return cls(metrics=Metric())
-
+        # metrics
         raw_metrics = stats_data.get("metrics", {})
         metric_obj = Metric(
             processed=raw_metrics.get("processed", 0),
@@ -27,8 +36,29 @@ class AppStats:
             failed=raw_metrics.get("failed", 0)
         )
 
+        # accounts
+        accounts: List[Account] = []
+        for ofx_key, mapping in valid_mappings.items():
+            account_num = "xxxx"
+
+            if ":" in ofx_key:
+                parts = ofx_key.split(":", 1)
+                raw_num = parts[1] if parts[1] else ""
+                account_num += raw_num[-4:] if len(raw_num) >=4 else raw_num
+            else:
+                account_num += ofx_key[-4:] if len(ofx_key) >= 4 else ofx_key
+
+            account_obj = Account(
+                bank_name=mapping.get("bank_name", "Unknown Bank"),
+                account_name=mapping.get("account_name", "Unnamed Account"),
+                account_num=account_num
+            )
+
+            accounts.append(account_obj)
+
         return cls(
             metrics=metric_obj,
+            accounts=accounts,
             last_file=stats_data.get("last_file", "-"),
             last_error=stats_data.get("last_error", "-")
         )
@@ -43,7 +73,7 @@ class AppStats:
     def on_failure(self, file_name: str, error: Exception, file_path: str):
         self.metrics.processed += 1
         self.metrics.failed += 1
-        self.last_file = file_name,
+        self.last_file = file_name
         self.last_error = str(error)
         self.save(file_path)
 

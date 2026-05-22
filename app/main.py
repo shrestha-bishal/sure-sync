@@ -40,7 +40,6 @@ log(f"Scan interval       : {LOOKUP_INTERVAL}s")
 
 parser = Parser()
 api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
-stats = AppStats.load(STATS_PATH)
 
 # Fetching Sure account information
 log("Fetching Sure account information")
@@ -69,6 +68,9 @@ for ofx_key, mapping in account_mappings.items():
 log(f"{len(valid_mappings)} valid account mappings will be used")
 if invalid_mappings:
     log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
+
+stats = AppStats.load(valid_mappings, STATS_PATH)
+stats.save(STATS_PATH)
 
 # Consuming
 while True:
