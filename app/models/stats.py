@@ -25,7 +25,7 @@ class AppStats:
     last_error: str = "-"
 
     @classmethod
-    def load(cls, valid_mappings: dict, file_path: str) -> "AppStats":
+    def load(cls, file_path: str, valid_mappings: dict | None = None) -> "AppStats":
         stats_data = read_json(file_path) or {}
 
         # metrics
@@ -37,31 +37,49 @@ class AppStats:
         )
 
         # accounts
+        raw_accounts = stats_data.get("accounts", [])
         accounts: List[Account] = []
-        for ofx_key, mapping in valid_mappings.items():
-            account_num = "xxxx"
 
-            if ":" in ofx_key:
-                parts = ofx_key.split(":", 1)
-                raw_num = parts[1] if parts[1] else ""
-                account_num += raw_num[-4:] if len(raw_num) >=4 else raw_num
-            else:
-                account_num += ofx_key[-4:] if len(ofx_key) >= 4 else ofx_key
+        if valid_mappings is not None:
+            historical_map = {}
+            if isinstance(raw_accounts, list):
+                for acc in raw_accounts:
+                    if isinstance(acc, dict) and acc.get("account_num"):
+                        historical_map[acc.get("account_num")] = acc
 
-            account_obj = Account(
-                bank_name=mapping.get("bank_name", "Unknown Bank"),
-                account_name=mapping.get("account_name", "Unnamed Account"),
-                account_num=account_num
-            )
+            for ofx_key, mapping in valid_mappings.items():
+                account_num = "xxxx"
 
-            accounts.append(account_obj)
+                if ":" in ofx_key:
+                    parts = ofx_key.split(":", 1)
+                    raw_num = parts[1] if parts[1] else ""
+                    account_num += raw_num[-4:] if len(raw_num) >=4 else raw_num
+                else:
+                    account_num += ofx_key[-4:] if len(ofx_key) >= 4 else ofx_key
+
+                account_obj = Account(
+                    bank_name=mapping.get("bank_name", "Unknown Bank"),
+                    account_name=mapping.get("account_name", "Unnamed Account"),
+                    account_num=account_num
+                )
+
+                accounts.append(account_obj)
+        else:
+            for acc in raw_accounts:
+                accounts.append(Account(
+                    bank_name=acc.get("bank_name", "Unknown Bank"),
+                    account_name=acc.get("account_name", "Unnamed Account"),
+                    account_num=acc.get("account_num"),
+                    last_transaction=acc.get("last_transaction", "-"),
+                    last_sync=acc.get("last_sync", "-")
+                ))
 
         return cls(
             metrics=metric_obj,
             accounts=accounts,
             last_file=stats_data.get("last_file", "-"),
             last_error=stats_data.get("last_error", "-")
-        )
+        )         
 
     def on_success(self, file_name: str, file_path: str):
         self.metrics.processed += 1

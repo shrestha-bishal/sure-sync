@@ -69,7 +69,7 @@ log(f"{len(valid_mappings)} valid account mappings will be used")
 if invalid_mappings:
     log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
 
-stats = AppStats.load(valid_mappings, STATS_PATH)
+stats = AppStats.load(STATS_PATH, valid_mappings)
 stats.save(STATS_PATH)
 
 # Consuming
