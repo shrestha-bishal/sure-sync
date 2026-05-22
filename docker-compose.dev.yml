@@ -4,13 +4,12 @@ services:
       context: .
       target: worker-stage
     container_name: sure-sync-worker
-    #command: python -u app/main.py
     env_file:
       - .env
     volumes:
       - ${CONSUME_PATH}:/app/consume
       - ${CONSUME_PATH}/processed:/app/processed
-      - ${STATS_PATH}/stats.json:/app/data/stats.json
+      - ${STATS_PATH}:/app/data
       - ./account-mapping.yml:/app/data/account-mapping.yml:ro
     restart: unless-stopped
   
@@ -22,7 +21,7 @@ services:
     ports:
       - "9000:8000"
     volumes:
-      - ${STATS_PATH}/stats.json:/app/data/stats.json
+      - ${STATS_PATH}:/app/data
     restart: unless-stopped
     depends_on:
       - worker
