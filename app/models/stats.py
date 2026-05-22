@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from helpers.file import read_json, write_json
+from app.helpers.file import read_json, write_json
 
 @dataclass
 class Metric:

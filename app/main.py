@@ -1,7 +1,7 @@
 import os
 import time
-from helpers.logger import log
-from helpers.file import move, read_json, write_json
+from app.helpers.logger import log
+from app.helpers.file import move, read_json, write_json
 from datetime import datetime
 from parsers.parser import Parser
 from clients.api_client import ApiClient
