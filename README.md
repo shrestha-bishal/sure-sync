@@ -78,6 +78,7 @@ The service will automatically process any OFX files in the **consume/** folder.
 ### Web Dashboard
 - The project includes a web dashboard served by the `web` service.
 - Once the stack is running, open `http://localhost:9000` to view the dashboard.
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/3e7db28a-8c18-477a-91cf-7127713e6abe" />
 
 ### Contributing
 - Fork the repo, make changes, and submit a pull request.
