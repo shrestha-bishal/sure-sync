@@ -1,7 +1,7 @@
 # sure-sync
 Sync OFX and CSV transactions files to the Sure (Maybe) Finance.
 
-`Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials local.
+`Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials local. The current release also includes a web dashboard for monitoring processing status and stats.
 
 ## Key Workflow:
 - Consume OFX files – Reads exported bank statements from a local consume folder for processing.
@@ -20,6 +20,7 @@ Sync OFX and CSV transactions files to the Sure (Maybe) Finance.
 - Docker-first deployment  
 - Automatic deduplication of transactions  
 - Easy account mapping through YAML  
+- Optional web dashboard for monitoring processed files and stats  
 - Secure: credentials are never committed to GitHub  
 
 ## Prerequisites
@@ -73,6 +74,10 @@ Edit `account-mapping.yml` to map your OFX accounts to Sure accounts. Keep this 
 docker compose up -d
 ```
 The service will automatically process any OFX files in the **consume/** folder.
+
+### Web Dashboard
+- The project includes a web dashboard served by the `web` service.
+- Once the stack is running, open `http://localhost:9000` to view the dashboard.
 
 ### Contributing
 - Fork the repo, make changes, and submit a pull request.
