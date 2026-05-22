@@ -1,7 +1,7 @@
 import os
 import time
 from helpers.logger import log
-from helpers.file import move
+from helpers.file import move, read_json, write_json
 from datetime import datetime
 from parsers.parser import Parser
 from clients.api_client import ApiClient
@@ -15,6 +15,7 @@ VOLUME_CONSUME_PATH = os.getenv("CONSUME_PATH", CONSUME_PATH)
 LOOKUP_INTERVAL = int(os.getenv("LOOKUP_INTERVAL", "5")) # default 5 seconds
 API_URL = os.getenv("API_URL", None)
 API_KEY = os.getenv("API_KEY", None)
+STATS_PATH = os.path.join(os.getenv("STATS_PATH", "/app/data"), "stats.json")
 
 # Api validations
 if not API_URL:
@@ -47,7 +48,7 @@ log(f"Found {len(sure_accounts)} Sure accounts")
 
 # Retrieve the mapped accounts
 log("Retrieving mapped accounts")
-account_mappings = parser.parse("/app/account-mapping.yml")
+account_mappings = parser.parse("/app/data/account-mapping.yml")
 log(f"Found {len(account_mappings)} account mappings")
 
 # Validate mappings
