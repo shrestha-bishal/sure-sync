@@ -21,6 +21,8 @@ services:
     container_name: sure-sync-web
     ports:
       - "9000:8000"
+    volumes:
+      - ${STATS_PATH}/stats.json:/app/data/stats.json
     restart: unless-stopped
     depends_on:
       - worker
