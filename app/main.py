@@ -6,6 +6,7 @@ from datetime import datetime
 from parsers.parser import Parser
 from clients.api_client import ApiClient
 from models.transaction import Transaction
+from models.stats import AppStats
 
 # contants
 CONSUME_PATH = "/app/consume"
@@ -39,6 +40,7 @@ log(f"Scan interval       : {LOOKUP_INTERVAL}s")
 
 parser = Parser()
 api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
+stats = AppStats.load(STATS_PATH)
 
 # Fetching Sure account information
 log("Fetching Sure account information")
@@ -108,13 +110,16 @@ while True:
                 api_client.create_transaction(transaction=transaction) 
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
+            stats.on_success(file_name, STATS_PATH)
 
         except ValueError as e:
             log(f"Unsupported file {file_name}: {e}")
             move(file_path, os.path.join(FAILED_DIR, new_file_name))
+            stats.on_failure(file_name, e, STATS_PATH)
 
         except Exception as e:
             log(f"Error processing {file_name}: {e}")
             move(file_path, os.path.join(FAILED_DIR, new_file_name))
+            stats.on_failure(file_name, e, STATS_PATH)
 
     time.sleep(LOOKUP_INTERVAL)
