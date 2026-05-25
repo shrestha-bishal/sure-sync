@@ -54,17 +54,26 @@ wget -O account-mapping.example.yml https://github.com/shrestha-bishal/sure-sync
 
 - Configure environment variables
 ```bash
-cp example.env .env
+mv example.env .env
 ```
 or 
 ```bash
-cp .env.example .env 
+mv .env.example .env 
 ```
-Edit `.env` to set your Sure API credentials and folder paths.
+
+Edit `.env` to set your Sure API credentials and folder paths. The main `.env` variables are:
+
+| Variable | Description | Example |
+|---|---|---|
+| `CONSUME_PATH` | Folder to scan for OFX files | `./consume/` |
+| `DATA_PATH` | Host directory persistence path for state and stats | `./data/` |
+| `API_URL` | Sure API base URL | `http://host.docker.internal:3000/api/v1/` |
+| `API_KEY` | Sure API key with read/write access | `your-api-key` |
+| `LOOKUP_INTERVAL` | Poll interval in seconds for consuming | `5` |
 
 - Configure account mapping
 ```bash
-cp account-mapping.example.yml account-mapping.yml
+mv account-mapping.example.yml account-mapping.yml
 ```
 Edit `account-mapping.yml` to map your OFX accounts to Sure accounts. Keep this file gitignored.
 
