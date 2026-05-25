@@ -1,4 +1,4 @@
-from helpers.logger import log
+from worker.helpers.logger import log
 
 class AccountsClient:
     def __init__(self, base_client):

@@ -1,6 +1,6 @@
-from clients.base_client import BaseClient
-from clients.accounts_client import AccountsClient
-from clients.transactions_client import TransactionsClient
+from core.clients.base_client import BaseClient
+from core.clients.accounts_client import AccountsClient
+from core.clients.transactions_client import TransactionsClient
 from models.transaction import Transaction
 
 class ApiClient(BaseClient):

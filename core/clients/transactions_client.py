@@ -1,6 +1,6 @@
-from helpers.logger import log
+from worker.helpers.logger import log
 import re
-from models.transaction import Transaction
+from worker.models.transaction import Transaction
 
 class TransactionsClient:
     def __init__(self, base_client):
