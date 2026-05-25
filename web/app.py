@@ -5,7 +5,6 @@ from core.clients.api_client import ApiClient
 from core.config import API_URL, API_KEY
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
-# from jinja2 import Environment, FileSystemLoader
 from web.routes.api import router as api_router
 
 app = FastAPI()
@@ -19,24 +18,14 @@ templates = Jinja2Templates(directory="web/templates")
 
 @app.get("/")
 def home(request: Request):
-    return templates.TemplateResponse("index.html", {
-        "request": request
-    })
-
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html"
+    )
+    
 @app.get("/settings", response_class=HTMLResponse)
 def settings(request: Request):
     return RedirectResponse(url="/settings/accounts")
-
-# @app.get("/settings/accounts", response_class=HTMLResponse)
-# def accounts(request: Request):
-#     accounts = api_client.get_accounts()
-#     # Render template manually to avoid potential Jinja2 template cache issues
-#     env = Environment(loader=FileSystemLoader("web/templates"))
-#     with open("web/templates/accounts.html", "r", encoding="utf-8") as f:
-#         tpl = env.from_string(f.read())
-
-#     content = tpl.render(request=request, accounts=accounts)
-#     return HTMLResponse(content)
 
 @app.get("/settings/accounts", response_class=HTMLResponse)
 def accounts(request: Request):

@@ -5,10 +5,10 @@ from worker.helpers.file import move, read_json, write_json
 from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, VOLUME_CONSUME_PATH, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
 from core.clients.api_client import ApiClient
+from core.models.transaction import Transaction
+from core.models.stats import AppStats
 from datetime import datetime
 from parsers.parser import Parser
-from models.transaction import Transaction
-from models.stats import AppStats
 
 # Api validations
 if not API_URL:

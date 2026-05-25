@@ -3,8 +3,8 @@ FROM python:3.12-slim AS base
 
 # Set workdir
 WORKDIR /app
-COPY requirements.txt .
 COPY core/ ./core/
+COPY requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
@@ -19,7 +19,6 @@ CMD ["python", "-u", "worker/main.py"]
 
 # Stage 3: web
 FROM base AS web-stage
-COPY worker/models ./worker/models
 COPY worker/helpers ./worker/helpers
 COPY web/ ./web/
 
