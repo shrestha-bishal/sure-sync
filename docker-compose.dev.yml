@@ -18,6 +18,8 @@ services:
       context: .
       target: web-stage
     container_name: sure-sync-web
+    env_file:
+      - .env
     ports:
       - "9000:8000"
     volumes:

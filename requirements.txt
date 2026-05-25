@@ -4,3 +4,4 @@ pyyaml
 fastapi
 uvicorn
 sqlmodel
+jinja2

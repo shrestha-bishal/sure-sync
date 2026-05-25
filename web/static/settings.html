@@ -59,6 +59,11 @@
                     <input type="text" placeholder="Account name">
                     <select>
                         <option value="" disabled selected hidden>Mapped Sure Account</option>
+                        {% for account in accounts %}
+                            <option value="{{ account.id }}">
+                                {{ account.name }} ({{ account.currency }}) [{{ account.classification | title }}/{{ account.account_type | title }}]
+                            </option>
+                        {% endfor %}
                     </select>
                     <input type="text" placeholder="Bank Id">
                     <input type="text" placeholder="Account Id">
