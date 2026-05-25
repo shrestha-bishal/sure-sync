@@ -19,3 +19,28 @@ async function updateStats() {
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
 });
+
+
+function openModal() {
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// Delete with animation
+function deleteRow(btn) {
+    const row = btn.closest(".account-row");
+
+    row.classList.add("deleting");
+
+    setTimeout(() => {
+        row.remove();
+    }, 250);
+}
+
+// click outside modal closes it
+document.getElementById("modal").addEventListener("click", function(e) {
+    if (e.target === this) closeModal();
+});

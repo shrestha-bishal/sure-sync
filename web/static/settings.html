@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Sure Sync Web</title>
+
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        />
+
+        <link rel="stylesheet" href="/static/style.css">
+        <script src="/static/app.js" defer></script>
+    </head>
+
+    <body>
+        <div class="settings-layout">
+            <!-- LEFT SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-title">Settings</div>
+
+                <div class="sidebar-item active">Accounts</div>
+                <!-- <div class="sidebar-item"></div> -->
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="panel">
+
+                <div class="panel-header">
+                    <div class="panel-title">Accounts</div>
+
+                    <button class="btn btn-add" onclick="openModal()">
+                        + Add Account
+                    </button>
+                </div>
+
+                <!-- LIST -->
+                <div id="accountList">
+
+                    <div class="account-row">
+                        <div>Account A</div>
+
+                        <div class="actions">
+                            <button class="btn btn-edit">Edit</button>
+                            <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+
+        <!-- MODAL -->
+        <div class="modal-overlay" id="modal">
+            <div class="modal">
+                <div class="modal-header">Add Account</div>
+                <form> 
+                    <input type="text" placeholder="Bank name">
+                    <input type="text" placeholder="Account name">
+                    <select>
+                        <option value="" disabled selected hidden>Mapped Sure Account</option>
+                    </select>
+                    <input type="text" placeholder="Bank Id">
+                    <input type="text" placeholder="Account Id">
+                    <textarea placeholder="Notes"></textarea>
+                </form>
+
+                <div class="actions" style="justify-content:flex-end;margin-top:10px;">
+                    <button class="btn btn-edit" onclick="closeModal()">Cancel</button>
+                    <button class="btn btn-add">Save</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
