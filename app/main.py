@@ -2,44 +2,35 @@ import os
 import time
 from app.helpers.logger import log
 from app.helpers.file import move, read_json, write_json
+from config import consume_path, processed_dir, failed_dir, volume_consume_path, lookup_interval, api_url, api_key, data_path
 from datetime import datetime
 from parsers.parser import Parser
 from clients.api_client import ApiClient
 from models.transaction import Transaction
 from models.stats import AppStats
 
-# contants
-CONSUME_PATH = "/app/consume"
-PROCESSED_DIR = os.path.join(CONSUME_PATH, "processed")
-FAILED_DIR = os.path.join(CONSUME_PATH, "failed")
-VOLUME_CONSUME_PATH = os.getenv("CONSUME_PATH", CONSUME_PATH)
-LOOKUP_INTERVAL = int(os.getenv("LOOKUP_INTERVAL", "5")) # default 5 seconds
-API_URL = os.getenv("API_URL", None)
-API_KEY = os.getenv("API_KEY", None)
-DATA_PATH = os.getenv("DATA_PATH", "/app/data")
-
 # Api validations
-if not API_URL:
+if not api_url:
     raise ValueError("API_URL environment variable is not set")
 
-if not API_KEY:
+if not api_key:
     raise ValueError("API_KEY environment variable is not set")
 
 log("App started")
 log("API config validated")
 
 # Create dir if does not exist
-os.makedirs(CONSUME_PATH, exist_ok=True)
-os.makedirs(PROCESSED_DIR, exist_ok=True)
-os.makedirs(FAILED_DIR, exist_ok=True)
+os.makedirs(consume_path, exist_ok=True)
+os.makedirs(processed_dir, exist_ok=True)
+os.makedirs(failed_dir, exist_ok=True)
 
-log(f"Consume directory   : {VOLUME_CONSUME_PATH}")
-log(f"Processed directory : {VOLUME_CONSUME_PATH}/processed")
-log(f"Failed directory    : {VOLUME_CONSUME_PATH}/failed")
-log(f"Scan interval       : {LOOKUP_INTERVAL}s")
+log(f"Consume directory   : {volume_consume_path}")
+log(f"Processed directory : {volume_consume_path}/processed")
+log(f"Failed directory    : {volume_consume_path}/failed")
+log(f"Scan interval       : {lookup_interval}s")
 
 parser = Parser()
-api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
+api_client = ApiClient(base_url=api_url, api_key=api_key)
 
 # Fetching Sure account information
 log("Fetching Sure account information")
@@ -69,18 +60,18 @@ log(f"{len(valid_mappings)} valid account mappings will be used")
 if invalid_mappings:
     log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
 
-stats = AppStats.load(os.path.join(DATA_PATH, "stats.json"), valid_mappings)
-stats.save(os.path.join(DATA_PATH, "stats.json"))
+stats = AppStats.load(os.path.join(data_path, "stats.json"), valid_mappings)
+stats.save(os.path.join(data_path, "stats.json"))
 
 # Consuming
 while True:
-    if not os.path.exists(CONSUME_PATH):
-        log(f"Consume path does not exist: {CONSUME_PATH}")
-        time.sleep(LOOKUP_INTERVAL)
+    if not os.path.exists(consume_path):
+        log(f"Consume path does not exist: {consume_path}")
+        time.sleep(lookup_interval)
         continue
 
-    for file_name in os.listdir(CONSUME_PATH):
-        file_path = os.path.join(CONSUME_PATH, file_name)
+    for file_name in os.listdir(consume_path):
+        file_path = os.path.join(consume_path, file_name)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         new_file_name = f"{timestamp} {file_name}"
 
@@ -111,17 +102,17 @@ while True:
 
                 api_client.create_transaction(transaction=transaction) 
 
-            move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
-            stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
+            move(file_path, os.path.join(processed_dir, new_file_name))
+            stats.on_success(file_name, os.path.join(data_path, "stats.json"))
 
         except ValueError as e:
             log(f"Unsupported file {file_name}: {e}")
-            move(file_path, os.path.join(FAILED_DIR, new_file_name))
-            stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
+            move(file_path, os.path.join(failed_dir, new_file_name))
+            stats.on_failure(file_name, e, os.path.join(data_path, "stats.json"))
 
         except Exception as e:
             log(f"Error processing {file_name}: {e}")
-            move(file_path, os.path.join(FAILED_DIR, new_file_name))
-            stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
+            move(file_path, os.path.join(failed_dir, new_file_name))
+            stats.on_failure(file_name, e, os.path.join(data_path, "stats.json"))
 
-    time.sleep(LOOKUP_INTERVAL)
+    time.sleep(lookup_interval)
