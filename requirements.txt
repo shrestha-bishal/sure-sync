@@ -3,3 +3,4 @@ requests
 pyyaml
 fastapi
 uvicorn
+sqlmodel

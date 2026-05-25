@@ -16,7 +16,7 @@ VOLUME_CONSUME_PATH = os.getenv("CONSUME_PATH", CONSUME_PATH)
 LOOKUP_INTERVAL = int(os.getenv("LOOKUP_INTERVAL", "5")) # default 5 seconds
 API_URL = os.getenv("API_URL", None)
 API_KEY = os.getenv("API_KEY", None)
-STATS_PATH = os.path.join(os.getenv("STATS_PATH", "/app/data"), "stats.json")
+DATA_PATH = os.getenv("DATA_PATH", "/app/data")
 
 # Api validations
 if not API_URL:
@@ -69,8 +69,8 @@ log(f"{len(valid_mappings)} valid account mappings will be used")
 if invalid_mappings:
     log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
 
-stats = AppStats.load(STATS_PATH, valid_mappings)
-stats.save(STATS_PATH)
+stats = AppStats.load(os.path.join(DATA_PATH, "stats.json"), valid_mappings)
+stats.save(os.path.join(DATA_PATH, "stats.json"))
 
 # Consuming
 while True:
@@ -112,16 +112,16 @@ while True:
                 api_client.create_transaction(transaction=transaction) 
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
-            stats.on_success(file_name, STATS_PATH)
+            stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
 
         except ValueError as e:
             log(f"Unsupported file {file_name}: {e}")
             move(file_path, os.path.join(FAILED_DIR, new_file_name))
-            stats.on_failure(file_name, e, STATS_PATH)
+            stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
         except Exception as e:
             log(f"Error processing {file_name}: {e}")
             move(file_path, os.path.join(FAILED_DIR, new_file_name))
-            stats.on_failure(file_name, e, STATS_PATH)
+            stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
     time.sleep(LOOKUP_INTERVAL)

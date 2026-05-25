@@ -3,8 +3,8 @@ from app.models.stats import AppStats
 
 router = APIRouter(prefix="/api")
 
-STATS_PATH = "/app/data/stats.json"
+DATA_PATH = "/app/data"
 
 @router.get('/stats')
 async def stats():
-    return AppStats.load(STATS_PATH)
+    return AppStats.load(DATA_PATH + "/stats.json")
