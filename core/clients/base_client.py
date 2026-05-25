@@ -23,7 +23,7 @@ class BaseClient:
         res.raise_for_status()
 
         if not res.content:
-            return None
+            return {}
 
         try:
             return res.json()
