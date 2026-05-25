@@ -1,10 +1,13 @@
 import os
 
-consume_path = "/app/consume"
-processed_dir = os.path.join(consume_path, "processed")
-failed_dir = os.path.join(consume_path, "failed")
-volume_consume_path = os.getenv("CONSUME_PATH", consume_path)
-lookup_interval = int(os.getenv("LOOKUP_INTERVAL", "5")) # default 5 seconds
-api_url = os.getenv("API_URL", None)
-api_key = os.getenv("API_KEY", None)
-data_path = os.getenv("DATA_PATH", "/app/data")
+CONSUME_PATH = "/app/consume"
+PROCESSED_DIR = os.path.join(CONSUME_PATH, "processed")
+FAILED_DIR = os.path.join(CONSUME_PATH, "failed")
+
+VOLUME_CONSUME_PATH = os.getenv("CONSUME_PATH", CONSUME_PATH)
+LOOKUP_INTERVAL = int(os.getenv("LOOKUP_INTERVAL", "5")) # default 5 seconds
+
+API_URL = os.getenv("API_URL", None)
+API_KEY = os.getenv("API_KEY", None)
+
+DATA_PATH = os.getenv("DATA_PATH", "/app/data")
