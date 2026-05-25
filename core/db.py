@@ -1,5 +1,5 @@
 import os
-from config import DATA_PATH
+from core.config import DATA_PATH
 from sqlmodel import SQLModel, create_engine
 
 DB_PATH = os.path.join(DATA_PATH, "sure-sync.db")
