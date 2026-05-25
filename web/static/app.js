@@ -15,7 +15,7 @@ async function updateStats() {
         setTimeout(updateDashboardStats, 3000);
     }
 }
-
+``
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
 });

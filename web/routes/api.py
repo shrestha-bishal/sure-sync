@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.models.stats import AppStats
+from worker.models.stats import AppStats
 
 router = APIRouter(prefix="/api")
 

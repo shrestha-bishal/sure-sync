@@ -1,7 +1,7 @@
 import os
 import time
-from app.helpers.logger import log
-from app.helpers.file import move, read_json, write_json
+from worker.helpers.logger import log
+from worker.helpers.file import move, read_json, write_json
 from config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, VOLUME_CONSUME_PATH, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
 from datetime import datetime
 from parsers.parser import Parser

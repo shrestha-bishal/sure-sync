@@ -11,15 +11,15 @@ ENV PYTHONPATH=/app
 
 # Stage 2: worker
 FROM base AS worker-stage
-COPY app/ ./app/
+COPY worker/ ./worker/
 
 # Run the app
-CMD ["python", "-u", "app/main.py"]
+CMD ["python", "-u", "worker/main.py"]
 
 # Stage 3: web
 FROM base AS web-stage
-COPY app/models ./app/models
-COPY app/helpers ./app/helpers
+COPY worker/models ./worker/models
+COPY worker/helpers ./worker/helpers
 COPY web/ ./web/
 
 CMD [ "uvicorn", "web.app:app", "--host", "0.0.0.0", "--port", "8000" ]
