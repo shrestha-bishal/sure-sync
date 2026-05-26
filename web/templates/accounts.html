@@ -27,12 +27,55 @@
             <div id="accountList">
                 {% for account in accounts %}
                     <div class="account-row">
-                        <div>{{ account.account_name }}</div>
-                        <!-- 
+                        <div class="account-info">
+                            <div class="account-main">
+                                {{ account.account_name }}
+                            </div>
+
+                            <div class="account-sub">
+                                {{ account.bank_name }}
+                            </div>
+
+                            <div class="account-meta">
+
+                                <span
+                                    class="meta-pill sure-account-name"
+                                    data-sure-account-id="{{ account.sure_account_id }}"
+                                >
+                                </span>
+
+                                <span class="meta-separator">•</span>
+
+                                <span>
+                                    Acc •••• {{ account.account_id[-4:] if account.account_id else '----' }}
+                                </span>
+
+                                {% if account.bank_id %}
+                                    <span class="meta-separator">•</span>
+
+                                    <span>
+                                        Bank •••• {{ account.bank_id[-4:] }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
                         <div class="actions">
-                            <button class="btn btn-edit">Edit</button>
-                            <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
-                        </div> -->
+                            <button
+                                class="btn btn-edit"
+                                onclick="editAccount('{{ account.id }}')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-delete"
+                                onclick="deleteAccount('{{ account.id }}'); deleteRow(this)"
+                            >
+                                Delete
+                            </button>
+                        </div>
+
                     </div>
                 {% endfor %}
             </div>
@@ -62,8 +105,39 @@
 
             <div class="actions" style="justify-content:flex-end;margin-top:10px;">
                 <button class="btn btn-edit" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-add" onclick="saveAccount()">Save</button>
+                <button class="btn btn-add save-account-btn" onclick="saveAccount()">Save</button>
             </div>
         </div>
     </div>
+
+    <!-- DELETE MODAL -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal modal-sm">
+
+            <div class="modal-header">
+                Delete Account
+            </div>
+
+            <div class="modal-description">
+                Are you sure you want to delete this account?
+                This action cannot be undone.
+            </div>
+
+            <div class="actions modal-actions">
+                <button class="btn btn-edit" onclick="closeDeleteModal()">
+                    Cancel
+                </button>
+
+                <button class="btn btn-delete" onclick="confirmDelete()">
+                    Delete
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+<script>
+    const allSureAccounts = {{ sure_accounts | tojson }};
+    const mappedSureAccountIds = {{ accounts | map(attribute='sure_account_id') | list | tojson }};
+</script>
 {% endblock %}

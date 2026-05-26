@@ -47,7 +47,7 @@ def accounts(request: Request):
         name="accounts.html",
         context=
          {
-            "sure_accounts":sure_accounts,
+            "sure_accounts": sure_accounts,
             "accounts": accounts
          }
         )

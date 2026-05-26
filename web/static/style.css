@@ -357,3 +357,69 @@ body {
 .modal select option {
     color: #111827; /* normal options */
 }
+
+/* Account content */
+.account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Main account name */
+.account-main {
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+    line-height: 1.2;
+}
+
+/* Bank name */
+.account-sub {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+    line-height: 1.2;
+}
+
+/* Bottom metadata row */
+.account-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 6px;
+
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+/* Sure account badge */
+.meta-pill {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 5px 10px;
+
+    border-radius: 999px;
+
+    background: #eef2ff;
+    color: #4f46e5;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    border: 1px solid rgba(79, 70, 229, 0.08);
+}
+
+/* separators */
+.meta-separator {
+    color: #d1d5db;
+}
+
+/* Right-side action spacing */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
