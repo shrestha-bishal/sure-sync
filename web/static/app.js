@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 function openModal() {
-    document.getElementById("modal").style.display = "flex";
+    document.getElementById('modal').style.display = 'flex';
 }
 
 function closeModal() {
