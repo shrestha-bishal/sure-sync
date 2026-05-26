@@ -8,7 +8,6 @@ services:
       - ${CONSUME_PATH}:/app/consume
       - ${CONSUME_PATH}/processed:/app/processed
       - ${DATA_PATH}:/app/data
-      - ./account-mapping.yml:/app/data/account-mapping.yml:ro
     restart: unless-stopped
 
   web:
