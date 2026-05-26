@@ -12,14 +12,7 @@ async def stats():
     return AppStats.load(DATA_PATH + "/stats.json")
 
 @router.post("/accounts")
-async def create_accounts():
-    account = Account(
-        sure_account_id="123",
-        bank_name="Test Bank",
-        account_id="456",
-        account_name="Test Account",
-    )
-    
+async def create_accounts(account: Account):
     success = create_account(account)
     return {"account": account, "success": success}
 
