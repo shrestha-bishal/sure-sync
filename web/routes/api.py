@@ -1,9 +1,7 @@
 from fastapi import APIRouter
 from core.models.stats import AppStats
 from core.models.account import Account
-from sqlmodel import Session, select
-from core.db import engine
-#from core.services.account_service import get_accounts
+from core.services.account_service import get_accounts as get_all_accounts, create_account
 
 router = APIRouter(prefix="/api")
 
@@ -21,18 +19,10 @@ async def create_accounts():
         account_id="456",
         account_name="Test Account",
     )
-
-    with Session(engine) as session:
-        session.add(account)
-        session.commit()
-        session.refresh(account)
-
-    # Save the account to the database
-    return {"message": "Account created", "account": account}
+    
+    success = create_account(account)
+    return {"account": account, "success": success}
 
 @router.get("/accounts")
 async def get_accounts():
-    with Session(engine) as session:
-        statement = select(Account)
-        results = session.exec(statement)
-        return results.all()
+    return get_all_accounts()
