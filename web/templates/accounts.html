@@ -25,16 +25,16 @@
 
             <!-- LIST -->
             <div id="accountList">
+                {% for account in accounts %}
+                    <div class="account-row">
+                        <div>{{ account.account_name }}</div>
 
-                <div class="account-row">
-                    <div>Account A</div>
-
-                    <div class="actions">
-                        <button class="btn btn-edit">Edit</button>
-                        <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
+                        <div class="actions">
+                            <button class="btn btn-edit">Edit</button>
+                            <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
+                        </div>
                     </div>
-                </div>
-
+                {% endfor %}
             </div>
 
         </main>
@@ -49,7 +49,7 @@
                 <input type="text" placeholder="Account name">
                 <select>
                     <option value="" disabled selected hidden>Mapped Sure Account</option>
-                    {% for account in accounts %}
+                    {% for account in sure_accounts %}
                         <option value="{{ account.id }}">
                             {{ account.name }} ({{ account.currency }}) [{{ account.classification | title }}/{{ account.account_type | title }}]
                         </option>

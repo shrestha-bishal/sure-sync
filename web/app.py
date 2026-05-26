@@ -6,6 +6,7 @@ from core.config import API_URL, API_KEY
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from web.routes.api import router as api_router
+from core.services.account_service import get_accounts
 from core.db import init_db
 
 app = FastAPI()
@@ -22,9 +23,9 @@ def startup_event():
     init_db()
     print("Database initialised successfully.")
 
-@app.get("/")
-def read_root():
-    return {"status": "online"}
+# @app.get("/")
+# def read_root():
+#     return {"status": "online"}
 
 @app.get("/")
 def home(request: Request):
@@ -39,8 +40,14 @@ def settings(request: Request):
 
 @app.get("/settings/accounts", response_class=HTMLResponse)
 def accounts(request: Request):
-    accounts = api_client.get_accounts()
+    sure_accounts = api_client.get_accounts()
+    accounts = get_accounts()
     return templates.TemplateResponse(
         request=request,
         name="accounts.html",
-        context={"accounts":accounts})
+        context=
+         {
+            "sure_accounts":sure_accounts,
+            "accounts": accounts
+         }
+        )
