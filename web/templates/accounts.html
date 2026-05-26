@@ -27,11 +27,55 @@
             <div id="accountList">
                 {% for account in accounts %}
                     <div class="account-row">
-                        <div>{{ account.account_name }}</div>
-                        <div class="actions">
-                            <button class="btn btn-edit" onclick="editAccount('{{ account.id }}')">Edit</button>
-                            <button class="btn btn-delete" onclick="deleteAccount('{{ account.id }}'); deleteRow(this)">Delete</button>
+                        <div class="account-info">
+                            <div class="account-main">
+                                {{ account.account_name }}
+                            </div>
+
+                            <div class="account-sub">
+                                {{ account.bank_name }}
+                            </div>
+
+                            <div class="account-meta">
+
+                                <span
+                                    class="meta-pill sure-account-name"
+                                    data-sure-account-id="{{ account.sure_account_id }}"
+                                >
+                                </span>
+
+                                <span class="meta-separator">•</span>
+
+                                <span>
+                                    Acc •••• {{ account.account_id[-4:] if account.account_id else '----' }}
+                                </span>
+
+                                {% if account.bank_id %}
+                                    <span class="meta-separator">•</span>
+
+                                    <span>
+                                        Bank •••• {{ account.bank_id[-4:] }}
+                                    </span>
+                                {% endif %}
+                            </div>
                         </div>
+
+                        <div class="actions">
+                            <button
+                                class="btn btn-edit"
+                                onclick="editAccount('{{ account.id }}')"
+                            >
+                                Edit
+                            </button>
+
+                            <button
+                                class="btn btn-delete"
+                                onclick="deleteAccount('{{ account.id }}'); deleteRow(this)"
+                            >
+                                Delete
+                            </button>
+                        </div>
+
                     </div>
                 {% endfor %}
             </div>

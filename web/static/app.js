@@ -53,6 +53,7 @@ async function saveAccount() {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
+    populateSureAccountNames();
 });
 
 
@@ -150,4 +151,23 @@ function populateSureAccounts(selectedId = null) {
     if (selectedId) {
         select.value = String(selectedId);
     }
+}
+
+function populateSureAccountNames() {
+    document
+        .querySelectorAll(".sure-account-name")
+        .forEach(el => {
+            const id = String(el.dataset.sureAccountId);
+
+            const account = allSureAccounts.find(
+                a => String(a.id) === id
+            );
+
+            if (account) {
+                el.textContent =
+                    `${account.name} (${account.currency})`;
+            } else {
+                el.remove();
+            }
+        });
 }
