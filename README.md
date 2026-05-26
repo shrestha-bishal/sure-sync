@@ -1,7 +1,9 @@
 # sure-sync
 Sync OFX transactions files to the Sure (Maybe) Finance.
 
-`Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials local. The current release also includes a web dashboard for monitoring processing status and stats.
+`Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local.
+
+The current release includes a web dashboard for live status, processing statistics, and account mapping management.
 
 ## Key Workflow:
 - Consume OFX files – Reads exported bank statements from a local consume folder for processing.
@@ -20,14 +22,15 @@ Sync OFX transactions files to the Sure (Maybe) Finance.
 - Docker-first deployment  
 - Automatic deduplication of transactions  
 - Easy account mapping through YAML  
-- Optional web dashboard for monitoring processed files and stats  
-- Secure: credentials are never committed to GitHub  
+- Web dashboard for monitoring stats and managing account mappings
+- Persistent state storage in a host-mounted data directory
+- Secure local credentials via `.env`
 
 ## Prerequisites
-- Docker  
-- Docker Compose  
-- A Sure account with API access  
-- OFX files exported from your bank  
+- Docker
+- Docker Compose
+- Sure account with API access
+- Exported OFX files from your bank
 
 ---
 ## Quick Start
@@ -47,46 +50,24 @@ wget -O docker-compose.yml https://github.com/shrestha-bishal/sure-sync/releases
 wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/latest/download/example.env
 ```
 
-> Download the `account-mapping.example.env`
-```bash
-wget -O account-mapping.example.yml https://github.com/shrestha-bishal/sure-sync/releases/latest/download/account-mapping.example.yml
-```
-
-- Configure environment variables
-```bash
-mv example.env .env
-```
-or 
-```bash
-mv .env.example .env 
-```
-
-Edit `.env` to set your Sure API credentials and folder paths. The main `.env` variables are:
-
+### Important `.env` variables
 | Variable | Description | Example |
 |---|---|---|
-| `CONSUME_PATH` | Folder to scan for OFX files | `./consume/` |
-| `DATA_PATH` | Host directory persistence path for state and stats | `./data/` |
+| `CONSUME_PATH` | Local folder to scan for OFX files | `./consume/` |
+| `DATA_PATH` | Host folder for persistent state and stats | `./data/` |
 | `API_URL` | Sure API base URL | `http://host.docker.internal:3000/api/v1/` |
 | `API_KEY` | Sure API key with read/write access | `your-api-key` |
-| `LOOKUP_INTERVAL` | Poll interval in seconds for consuming | `5` |
+| `LOOKUP_INTERVAL` | Poll interval for scanning files (seconds) | `5` |
 
-- Configure account mapping
-```bash
-mv account-mapping.example.yml account-mapping.yml
-```
-Edit `account-mapping.yml` to map your OFX accounts to Sure accounts. Keep this file gitignored.
+### Service behavior
+- The worker service watches `CONSUME_PATH` for OFX files.
+- Processed files are moved to `processed/` and failures to `failed/`.
+- Account mappings are managed through the web dashboard.
 
-- Start the service
-> Make sure the ~~Maybe~~ Sure is running before composing.
-```bash
-docker compose up -d
-```
-The service will automatically process any OFX files in the **consume/** folder.
-
-### Web Dashboard
-- The project includes a web dashboard served by the `web` service.
-- Once the stack is running, open `http://localhost:9000` to view the dashboard.
+### Web Dashboardc
+- Access the dashboard at `http://localhost:9000`
+- Use **Settings → Accounts** to add mapped bank accounts
+- Dashboard also shows processing statistics and current app state
 <img width="1920" height="788" alt="image" src="https://github.com/user-attachments/assets/77f4bd17-b8f9-422c-af84-d9c06c775a39" />
 
 > More updates on the way
@@ -95,8 +76,8 @@ The service will automatically process any OFX files in the **consume/** folder.
 - Fork the repo, make changes, and submit a pull request.
 - Report bugs or feature requests via GitHub issues.
 
-### License
-MIT License. See [LICENSE](./LICENSE)  for details.
+## License
+MIT License. See [LICENSE](./LICENSE) for details.
 
 ### Funding & Sponsorship
 Sure Sync is an open-source tool developed and maintained to automate the import of bank transactions into the Sure finance platform. It simplifies financial data workflows and ensures reliable, localised syncing for users without public bank APIs.
