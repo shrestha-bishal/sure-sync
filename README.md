@@ -50,7 +50,15 @@ wget -O docker-compose.yml https://github.com/shrestha-bishal/sure-sync/releases
 wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/latest/download/example.env
 ```
 
-### Important `.env` variables
+- Configure environment variables
+```bash
+mv example.env .env
+```
+or 
+```bash
+mv .env.example .env 
+```
+Edit `.env` to set your Sure API credentials and folder paths. The main `.env` variables are:
 | Variable | Description | Example |
 |---|---|---|
 | `CONSUME_PATH` | Local folder to scan for OFX files | `./consume/` |
@@ -59,12 +67,19 @@ wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/lates
 | `API_KEY` | Sure API key with read/write access | `your-api-key` |
 | `LOOKUP_INTERVAL` | Poll interval for scanning files (seconds) | `5` |
 
+- Start the service
+> Make sure the ~~Maybe~~ Sure is running before composing.
+```bash
+docker compose up -d
+```
+The service will automatically process any OFX files in the **consume/** folder.
+
 ### Service behavior
 - The worker service watches `CONSUME_PATH` for OFX files.
 - Processed files are moved to `processed/` and failures to `failed/`.
 - Account mappings are managed through the web dashboard.
 
-### Web Dashboardc
+### Web Dashboard
 - Access the dashboard at `http://localhost:9000` or your configured port
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
