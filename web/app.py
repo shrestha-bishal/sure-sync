@@ -47,7 +47,7 @@ def accounts(request: Request):
         name="accounts.html",
         context=
          {
-            "sure_accounts": [sa for sa in sure_accounts if str(sa['id']) not in {a.sure_account_id for a in accounts}],
+            "sure_accounts": sure_accounts,
             "accounts": accounts
          }
         )
