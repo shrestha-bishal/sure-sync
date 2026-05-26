@@ -49,6 +49,20 @@ function closeModal() {
     document.getElementById("modal").style.display = "none";
 }
 
+async function deleteAccount(id) {
+    if (!confirm("Are you sure you want to delete this account?")) return;
+
+    const response = await fetch(`/api/accounts/${id}`, {
+        method: 'DELETE'
+    });
+
+    if (response.ok) {
+        location.reload(); // Refresh the page to remove the row
+    } else {
+        alert("Failed to delete account.");
+    }
+}
+
 // Delete with animation
 function deleteRow(btn) {
     const row = btn.closest(".account-row");
