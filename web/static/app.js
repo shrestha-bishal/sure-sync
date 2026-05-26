@@ -15,7 +15,27 @@ async function updateStats() {
         setTimeout(updateDashboardStats, 3000);
     }
 }
-``
+
+async function saveAccount() {
+    const form = document.getElementById('accountForm');
+    const formData = new FormData(form);
+    
+    const data = Object.fromEntries(formData.entries());
+
+    const response = await fetch('/api/accounts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        closeModal();
+        location.reload();
+    } else {
+        alert("Failed to save account.");
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
 });

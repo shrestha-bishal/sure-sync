@@ -25,16 +25,16 @@
 
             <!-- LIST -->
             <div id="accountList">
-
-                <div class="account-row">
-                    <div>Account A</div>
-
-                    <div class="actions">
-                        <button class="btn btn-edit">Edit</button>
-                        <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
+                {% for account in accounts %}
+                    <div class="account-row">
+                        <div>{{ account.account_name }}</div>
+                        <!-- 
+                        <div class="actions">
+                            <button class="btn btn-edit">Edit</button>
+                            <button class="btn btn-delete" onclick="deleteRow(this)">Delete</button>
+                        </div> -->
                     </div>
-                </div>
-
+                {% endfor %}
             </div>
 
         </main>
@@ -44,25 +44,25 @@
     <div class="modal-overlay" id="modal">
         <div class="modal">
             <div class="modal-header">Add Account</div>
-            <form> 
-                <input type="text" placeholder="Bank name">
-                <input type="text" placeholder="Account name">
-                <select>
+            <form id="accountForm" onsubmit="event.preventDefault(); saveAccount();"> 
+                <input type="text" name="bank_name" placeholder="Bank name" required>
+                <input type="text" name="bank_id" placeholder="Bank Id">
+                <input type="text" name="account_name" placeholder="Account name" required>
+                <input type="text" name="account_id" placeholder="Account Id" required>
+                <select name="sure_account_id" required>
                     <option value="" disabled selected hidden>Mapped Sure Account</option>
-                    {% for account in accounts %}
+                    {% for account in sure_accounts %}
                         <option value="{{ account.id }}">
                             {{ account.name }} ({{ account.currency }}) [{{ account.classification | title }}/{{ account.account_type | title }}]
                         </option>
                     {% endfor %}
                 </select>
-                <input type="text" placeholder="Bank Id">
-                <input type="text" placeholder="Account Id">
-                <textarea placeholder="Notes"></textarea>
+                <textarea name="notes" placeholder="Notes"></textarea>
             </form>
 
             <div class="actions" style="justify-content:flex-end;margin-top:10px;">
                 <button class="btn btn-edit" onclick="closeModal()">Cancel</button>
-                <button class="btn btn-add">Save</button>
+                <button class="btn btn-add" onclick="saveAccount()">Save</button>
             </div>
         </div>
     </div>

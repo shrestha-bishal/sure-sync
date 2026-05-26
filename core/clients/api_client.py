@@ -1,7 +1,7 @@
 from core.clients.base_client import BaseClient
 from core.clients.accounts_client import AccountsClient
 from core.clients.transactions_client import TransactionsClient
-from worker.models.transaction import Transaction
+from core.models.transaction import Transaction
 
 class ApiClient(BaseClient):
     def __init__(self, base_url, api_key):
