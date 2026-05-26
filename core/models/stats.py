@@ -58,8 +58,8 @@ class AppStats:
                     account_num += ofx_key[-4:] if len(ofx_key) >= 4 else ofx_key
 
                 account_obj = Account(
-                    bank_name=mapping.get("bank_name", "Unknown Bank"),
-                    account_name=mapping.get("account_name", "Unnamed Account"),
+                    bank_name=mapping.bank_name or "Unknown Bank",
+                    account_name=mapping.account_name or "Unnamed Account",
                     account_num=account_num
                 )
 

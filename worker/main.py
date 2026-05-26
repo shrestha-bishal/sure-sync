@@ -7,6 +7,7 @@ from core.db import init_db
 from core.clients.api_client import ApiClient
 from core.models.transaction import Transaction
 from core.models.stats import AppStats
+from core.services.account_service import get_accounts
 from datetime import datetime
 from parsers.parser import Parser
 
@@ -42,21 +43,22 @@ log(f"Found {len(sure_accounts)} Sure accounts")
 
 # Retrieve the mapped accounts
 log("Retrieving mapped accounts")
-account_mappings = parser.parse("/app/data/account-mapping.yml")
+account_mappings = get_accounts()
 log(f"Found {len(account_mappings)} account mappings")
 
 # Validate mappings
 log("Validating account mappings against Sure accounts")
 valid_mappings = {}
 invalid_mappings = []
-for ofx_key, mapping in account_mappings.items():
-    sure_id = mapping.get("sure_account_id")
+for mapping in account_mappings:
+    sure_id = mapping.sure_account_id
+    key = f"{mapping.bank_id}:{mapping.account_id}"
     if sure_id in sure_account_ids:
-        valid_mappings[ofx_key] = mapping
+        valid_mappings[key] = mapping
 
-    else:    
-        log(f"Mapping for '{ofx_key} points to non-existent Sure account ID '{sure_id}''")
-        invalid_mappings.append(ofx_key)
+    else:
+        log(f"Mapping for '{key} points to non-existent Sure account ID '{sure_id}''")
+        invalid_mappings.append(key)
 
 log(f"{len(valid_mappings)} valid account mappings will be used")
 if invalid_mappings:
