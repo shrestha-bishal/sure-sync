@@ -14,7 +14,7 @@ The current release includes a web dashboard for live status, processing statist
 - Localised control – Users maintain full control of credentials, configuration, and data without storing secrets in the repository.
 
 <img width="813" height="293" alt="image" src="https://github.com/user-attachments/assets/980dbeae-1f8d-40ba-8b17-8f18693f4197" />
-<img width="651" height="111" alt="image" src="https://github.com/user-attachments/assets/8f4071d4-7ed1-4dd0-9beb-4f958370333b" />
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
 <img width="614" height="48" alt="image" src="https://github.com/user-attachments/assets/80d7c0bb-4dc3-4bf3-91b6-d8578ac891ae" />
 
 ## Features
