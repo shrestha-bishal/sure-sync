@@ -6,6 +6,7 @@ from core.config import API_URL, API_KEY
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from web.routes.api import router as api_router
+from core.db import init_db
 
 app = FastAPI()
 app.include_router(api_router)
@@ -15,6 +16,15 @@ api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
 # Serve the static files for the dashboard
 app.mount("/static", StaticFiles(directory="web/static"), name="static")
 templates = Jinja2Templates(directory="web/templates")
+
+@app.on_event("startup")
+def startup_event():
+    init_db()
+    print("Database initialised successfully.")
+
+@app.get("/")
+def read_root():
+    return {"status": "online"}
 
 @app.get("/")
 def home(request: Request):
