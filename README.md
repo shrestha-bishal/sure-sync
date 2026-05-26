@@ -14,7 +14,7 @@ The current release includes a web dashboard for live status, processing statist
 - Localised control – Users maintain full control of credentials, configuration, and data without storing secrets in the repository.
 
 <img width="813" height="293" alt="image" src="https://github.com/user-attachments/assets/980dbeae-1f8d-40ba-8b17-8f18693f4197" />
-<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
+<img width="651" height="111" alt="image" src="https://github.com/user-attachments/assets/a78d7eaf-35c0-426f-bdb7-4bbbb2f84db5" />
 <img width="614" height="48" alt="image" src="https://github.com/user-attachments/assets/80d7c0bb-4dc3-4bf3-91b6-d8578ac891ae" />
 
 ## Features
@@ -84,7 +84,7 @@ The service will automatically process any OFX files in the **consume/** folder.
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/d407a25f-da07-4f86-a788-fef55887d9bc" />
-<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/69460e9b-ce66-4ea6-ac21-2cf0221ead9a" />
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/277b877f-c54f-434b-8e33-3a92b81305ca" />
 
 > More updates on the way
