@@ -65,7 +65,7 @@ wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/lates
 - Account mappings are managed through the web dashboard.
 
 ### Web Dashboardc
-- Access the dashboard at `http://localhost:9000`
+- Access the dashboard at `http://localhost:9000` or your configured port
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/d407a25f-da07-4f86-a788-fef55887d9bc" />
