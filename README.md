@@ -1,4 +1,4 @@
-# sure-sync
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/f657ba20-fdb8-418a-b54e-904bffd05cdc" /># sure-sync
 Sync OFX transactions files to the Sure (Maybe) Finance.
 
 `Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local.
@@ -68,7 +68,9 @@ wget -O .env.example https://github.com/shrestha-bishal/sure-sync/releases/lates
 - Access the dashboard at `http://localhost:9000`
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
-<img width="1920" height="788" alt="image" src="https://github.com/user-attachments/assets/77f4bd17-b8f9-422c-af84-d9c06c775a39" />
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/d407a25f-da07-4f86-a788-fef55887d9bc" />
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/69460e9b-ce66-4ea6-ac21-2cf0221ead9a" />
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/277b877f-c54f-434b-8e33-3a92b81305ca" />
 
 > More updates on the way
 
