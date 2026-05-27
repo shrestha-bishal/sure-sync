@@ -8,6 +8,7 @@ from fastapi.responses import HTMLResponse
 from web.routes.api import router as api_router
 from core.services.account_service import get_accounts
 from core.db import init_db
+from datetime import datetime
 
 app = FastAPI()
 app.include_router(api_router)
@@ -31,12 +32,26 @@ def startup_event():
 def home(request: Request):
     sure_accounts = api_client.get_accounts()
     accounts = get_accounts()
+    filtered_accounts = [a for a in accounts if a.sure_account_id in {sa['id'] for sa in sure_accounts}]
+    recent_transactions = {}
+    for account in filtered_accounts:
+        response = api_client.get_transactions(params={"account_id": account.sure_account_id})
+        txs = response.get("transactions", [])
+        
+        if txs:
+            raw_date = txs[0].get("date")
+            dt = datetime.fromisoformat(raw_date.replace('Z', '+00:00'))
+            recent_transactions[account.sure_account_id] = dt.strftime("%A, %b %d, %Y")
+        else:
+            recent_transactions[account.sure_account_id] = None
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
         context={
             "sure_accounts": sure_accounts,
-            "filtered_accounts": [a for a in accounts if a.sure_account_id in {sa['id'] for sa in sure_accounts}]
+            "filtered_accounts": filtered_accounts,
+            "recent_transactions": recent_transactions
         }
     )
     
