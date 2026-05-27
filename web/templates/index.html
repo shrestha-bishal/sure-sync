@@ -43,6 +43,81 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card accounts-dashboard-card">
+                <div class="label">
+                    Accounts
+                </div>
+
+                <div class="dashboard-accounts-list">
+                    {% for account in filtered_accounts %}
+                        <div class="dashboard-account-row">
+                            <div class="dashboard-account-info">
+                                <div class="account-main">
+                                    {{ account.account_name }}
+                                </div>
+
+                                <div class="account-sub">
+                                    {{ account.bank_name }}
+                                </div>
+
+                                <div class="account-meta">
+                                    <span
+                                        class="meta-pill sure-account-name"
+                                        data-sure-account-id="{{ account.sure_account_id }}"
+                                    >
+                                    </span>
+
+                                    <span class="meta-separator">•</span>
+
+                                    <span>
+                                        Acc •••• {{ account.account_id[-4:] if account.account_id else '----' }}
+                                    </span>
+
+                                    {% if account.bank_id %}
+                                        <span class="meta-separator">•</span>
+
+                                        <span>
+                                            Bank •••• {{ account.bank_id[-4:] }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="dashboard-account-stats">
+                                <div class="dashboard-stat">
+                                    <div class="dashboard-stat-label">
+                                        Max Transaction
+                                    </div>
+
+                                    <div class="dashboard-stat-value">
+                                        24 May 2026
+                                    </div>
+                                </div>
+
+                                <div class="dashboard-stat">
+                                    <div class="dashboard-stat-label">
+                                        Last Sync
+                                    </div>
+
+                                    <div class="dashboard-stat-value success">
+                                        2 mins ago
+                                    </div>
+
+                                    <!-- <div class="dashboard-stat-value failed">
+                                        Failed
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </body>
 </html>
+
+<script>
+    const allSureAccounts = {{ sure_accounts | tojson }};
+    const mappedSureAccountIds = {{ accounts | map(attribute='sure_account_id') | list | tojson }};
+</script>

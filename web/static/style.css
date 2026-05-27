@@ -423,3 +423,77 @@ body {
     align-items: center;
     gap: 8px;
 }
+
+.accounts-dashboard-card {
+    grid-column: span 4;
+}
+
+.dashboard-accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.dashboard-account-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px;
+
+    border-radius: 14px;
+
+    background: #f9fafb;
+    border: 1px solid rgba(17, 24, 39, 0.05);
+
+    transition: all 0.2s ease;
+}
+
+.dashboard-account-row:hover {
+    background: white;
+
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.03),
+        0 10px 24px rgba(0,0,0,0.05);
+}
+
+.dashboard-account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dashboard-account-stats {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.dashboard-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 140px;
+}
+
+.dashboard-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.dashboard-stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.dashboard-stat-value.success {
+    color: #059669;
+}
+
+.dashboard-stat-value.failed {
+    color: #dc2626;
+}

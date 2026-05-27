@@ -29,9 +29,15 @@ def startup_event():
 
 @app.get("/")
 def home(request: Request):
+    sure_accounts = api_client.get_accounts()
+    accounts = get_accounts()
     return templates.TemplateResponse(
         request=request,
-        name="index.html"
+        name="index.html",
+        context={
+            "sure_accounts": sure_accounts,
+            "filtered_accounts": [a for a in accounts if a.sure_account_id in {sa['id'] for sa in sure_accounts}]
+        }
     )
     
 @app.get("/settings", response_class=HTMLResponse)
