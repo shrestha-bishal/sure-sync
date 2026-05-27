@@ -83,7 +83,7 @@ The service will automatically process any OFX files in the **consume/** folder.
 - Access the dashboard at `http://localhost:9000` or your configured port
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
-<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/d407a25f-da07-4f86-a788-fef55887d9bc" />
+<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/1640e146-b70c-4586-9389-19c63f665eeb" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/277b877f-c54f-434b-8e33-3a92b81305ca" />
 

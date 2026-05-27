@@ -11,6 +11,9 @@ class ApiClient(BaseClient):
 
     def get_accounts(self, params=None):
         return self.accounts_client.list()
+    
+    def get_transactions(self, params=None):
+        return self.transaction_client.list(params=params)
 
     def create_transaction(self, transaction: Transaction):
         self.transaction_client.create(transaction)

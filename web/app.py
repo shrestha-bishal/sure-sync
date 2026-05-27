@@ -35,8 +35,9 @@ def home(request: Request):
     filtered_accounts = [a for a in accounts if a.sure_account_id in {sa['id'] for sa in sure_accounts}]
     recent_transactions = {}
     for account in filtered_accounts:
-        transaction = api_client.transaction_client.list(params={"account_id": account.sure_account_id, "per_page": 1})
-        txs = transaction.get("transactions", [])
+        response = api_client.get_transactions(params={"account_id": account.sure_account_id})
+        txs = response.get("transactions", [])
+        
         if txs:
             raw_date = txs[0].get("date")
             dt = datetime.fromisoformat(raw_date.replace('Z', '+00:00'))
@@ -50,7 +51,7 @@ def home(request: Request):
         context={
             "sure_accounts": sure_accounts,
             "filtered_accounts": filtered_accounts,
-            "recent_transactions": recent_transactions,
+            "recent_transactions": recent_transactions
         }
     )
     

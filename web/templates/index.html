@@ -14,6 +14,36 @@
 
     <body>
         <div class="topbar">
+            <div class="files-log-inline">
+                <div class="files-log-title">
+                    Files Log
+                </div>
+
+                <div class="divider"></div>
+                
+                <div class="inline-stat processed">
+                    <span class="dot"></span>
+                    <span class="inline-label">Processed</span>
+                    <span class="inline-value" id="files-processed">0</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="inline-stat success">
+                    <span class="dot"></span>
+                    <span class="inline-label">Success</span>
+                    <span class="inline-value" id="files-success">0</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="inline-stat failed">
+                    <span class="dot"></span>
+                    <span class="inline-label">Failed</span>
+                    <span class="inline-value" id="files-failed">0</span>
+                </div>
+            </div>
+
             <a href="/settings" class="settings-link">
                 <i class="fa-solid fa-gear"></i>
                 <span>Accounts</span>
@@ -21,29 +51,6 @@
         </div>
 
         <div class="grid">
-            <div class="card">
-                <div class="label">
-                    Files Log
-                </div>
-
-                <div class="stats">
-                    <div class="stat-row processed">
-                        <div class="stat-label">Processed</div>
-                        <div class="value" id="files-processed">0</div>
-                    </div>
-
-                    <div class="stat-row success">
-                        <div class="stat-label">Success</div>
-                        <div class="value" id="files-success">0</div>
-                    </div>
-
-                    <div class="stat-row failed">
-                        <div class="stat-label">Failed</div>
-                        <div class="value" id="files-failed">0</div>
-                    </div>
-                </div>
-            </div>
-
             <div class="card accounts-dashboard-card">
                 <div class="label">
                     Accounts
@@ -91,10 +98,11 @@
                                     </div>
 
                                     <div class="dashboard-stat-value">
-                                        {{ recent_transactions.get(account.sure_account_id, "No transactions found") }}
+                                        {{ recent_transactions.get(account.sure_account_id, "None") }}
                                     </div>
                                 </div>
 
+                                <!-- 
                                 <div class="dashboard-stat">
                                     <div class="dashboard-stat-label">
                                         Last Sync
@@ -104,10 +112,10 @@
                                         2 mins ago
                                     </div>
 
-                                    <!-- <div class="dashboard-stat-value failed">
+                                    <div class="dashboard-stat-value failed">
                                         Failed
-                                    </div> -->
-                                </div>
+                                    </div>
+                                </div> -->
                             </div>
                         </div>
                     {% endfor %}
