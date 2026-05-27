@@ -41,58 +41,127 @@ body {
     margin-bottom: 18px;
 }
 
-/* Stats container */
-.stats {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-/* Stat row */
-.stat-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px;
-    border-radius: 12px;
-    background: #f9fafb;
-    border: 1px solid rgba(17, 24, 39, 0.05);
-}
-
-/* Variants */
-.stat-row.processed {
-    border-left: 4px solid #8b5cf6;
-}
-
-.stat-row.success {
-    border-left: 4px solid #10b981;
-}
-
-.stat-row.failed {
-    border-left: 4px solid #ef4444;
-}
-
-/* Labels */
-.stat-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #374151;
-}
-
-/* Values */
-.value {
-    font-size: 26px;
-    font-weight: 700;
-    line-height: 1;
-    color: #111827;
-}
-
 /* Topbar */
 .topbar {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    padding: 6px 2px;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+/* Inline files log */
+.files-log-inline {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    height: 44px;
+
+    padding: 0 16px;
+
+    background: rgba(255,255,255,0.92);
+
+    border: 1px solid rgba(17,24,39,0.06);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 8px 24px rgba(0,0,0,0.04);
+
+    backdrop-filter: blur(10px);
+}
+
+/* Stat item */
+.inline-stat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Colored dot */
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+.processed .dot {
+    background: #8b5cf6;
+}
+
+.success .dot {
+    background: #10b981;
+}
+
+.failed .dot {
+    background: #ef4444;
+}
+
+/* Text */
+.inline-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.inline-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* Divider */
+.divider {
+    width: 1px;
+    height: 18px;
+    background: #e5e7eb;
+}
+
+/* Accounts button */
+.settings-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    height: 44px;
+
+    padding: 0 16px;
+
+    border-radius: 14px;
+
+    background: rgba(255,255,255,0.92);
+
+    border: 1px solid rgba(17,24,39,0.08);
+
+    color: #111827;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.04),
+        0 8px 24px rgba(0,0,0,0.04);
+
+    transition: all 0.2s ease;
+}
+
+.settings-link:hover {
+    transform: translateY(-1px);
+    background: white;
+}
+
+.files-log-title {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    white-space: nowrap;
 }
 
 /* Settings button */
@@ -422,4 +491,78 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.accounts-dashboard-card {
+    grid-column: span 4;
+}
+
+.dashboard-accounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.dashboard-account-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px;
+
+    border-radius: 14px;
+
+    background: #f9fafb;
+    border: 1px solid rgba(17, 24, 39, 0.05);
+
+    transition: all 0.2s ease;
+}
+
+.dashboard-account-row:hover {
+    background: white;
+
+    box-shadow:
+        0 1px 2px rgba(0,0,0,0.03),
+        0 10px 24px rgba(0,0,0,0.05);
+}
+
+.dashboard-account-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dashboard-account-stats {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.dashboard-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 140px;
+}
+
+.dashboard-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9ca3af;
+}
+
+.dashboard-stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.dashboard-stat-value.success {
+    color: #059669;
+}
+
+.dashboard-stat-value.failed {
+    color: #dc2626;
 }
