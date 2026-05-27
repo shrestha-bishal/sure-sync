@@ -18,6 +18,7 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 18px;
     align-items: start;
+    height: calc(100vh - 120px);
 }
 
 /* Card */
@@ -475,10 +476,26 @@ body {
     min-width: 0;
 }
 
+.accounts-dashboard-card,
+.uploads-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    flex: 1;
+}
+
+.dashboard-accounts-list,
+.uploads-table-wrapper {
+    flex: 1;
+    overflow: auto;
+}
+
 .dashboard-accounts-list {
     display: flex;
     flex-direction: column;
     gap: 14px;
+    min-height: 0;
 }
 
 .dashboard-account-row {
@@ -565,8 +582,9 @@ body {
 
 /* Scroll wrapper */
 .uploads-table-wrapper {
+    flex: 1;
     overflow: auto;
-    max-height: 720px;
+    min-height: 0;
     border-radius: 14px;
 }
 
