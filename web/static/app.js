@@ -8,13 +8,12 @@ async function updateStats() {
             throw new Error(`HTTP error! status: ${response.status}`);
         
         const stats = await response.json();
-        console.log(stats)
         document.getElementById('files-processed').innerText = stats.metrics.processed || 0
         document.getElementById('files-success').innerText = stats.metrics.success || 0
         document.getElementById('files-failed').innerText = stats.metrics.failed || 0
     } catch (error) {
     } finally {
-        setTimeout(updateDashboardStats, 3000);
+        setTimeout(updateStats, 3000);
     }
 }
 
@@ -95,9 +94,12 @@ function deleteRow(btn) {
 }
 
 // click outside modal closes it
-document.getElementById("modal").addEventListener("click", function(e) {
-    if (e.target === this) closeModal();
-});
+var modal = document.getElementById("modal");
+if(modal) {
+    modal.addEventListener("click", function(e) {
+        if (e.target === this) closeModal();
+    });
+}
 
 async function editAccount(id) {
     const response = await fetch(`/api/accounts/${id}`);
