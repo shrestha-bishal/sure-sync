@@ -15,9 +15,9 @@ body {
 /* Layout */
 .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-top: 18px;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    align-items: start;
 }
 
 /* Card */
@@ -55,21 +55,14 @@ body {
     display: flex;
     align-items: center;
     gap: 14px;
-
     height: 44px;
-
     padding: 0 16px;
-
     background: rgba(255,255,255,0.92);
-
     border: 1px solid rgba(17,24,39,0.06);
-
     border-radius: 14px;
-
     box-shadow:
         0 1px 2px rgba(0,0,0,0.04),
         0 8px 24px rgba(0,0,0,0.04);
-
     backdrop-filter: blur(10px);
 }
 
@@ -125,28 +118,18 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-
     height: 44px;
-
     padding: 0 16px;
-
     border-radius: 14px;
-
     background: rgba(255,255,255,0.92);
-
     border: 1px solid rgba(17,24,39,0.08);
-
     color: #111827;
-
     text-decoration: none;
-
     font-size: 13px;
     font-weight: 600;
-
     box-shadow:
         0 1px 2px rgba(0,0,0,0.04),
         0 8px 24px rgba(0,0,0,0.04);
-
     transition: all 0.2s ease;
 }
 
@@ -467,17 +450,12 @@ body {
 .meta-pill {
     display: inline-flex;
     align-items: center;
-
     padding: 5px 10px;
-
     border-radius: 999px;
-
     background: #eef2ff;
     color: #4f46e5;
-
     font-size: 11px;
     font-weight: 600;
-
     border: 1px solid rgba(79, 70, 229, 0.08);
 }
 
@@ -494,7 +472,7 @@ body {
 }
 
 .accounts-dashboard-card {
-    grid-column: span 4;
+    min-width: 0;
 }
 
 .dashboard-accounts-list {
@@ -507,14 +485,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 18px;
-
     border-radius: 14px;
-
     background: #f9fafb;
     border: 1px solid rgba(17, 24, 39, 0.05);
-
     transition: all 0.2s ease;
 }
 
@@ -565,4 +539,239 @@ body {
 
 .dashboard-stat-value.failed {
     color: #dc2626;
+}
+
+/* Uploads card */
+.uploads-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+/* Header */
+.uploads-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.uploads-count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #9ca3af;
+}
+
+/* Scroll wrapper */
+.uploads-table-wrapper {
+    overflow: auto;
+    max-height: 720px;
+    border-radius: 14px;
+}
+
+/* Table */
+.uploads-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 720px;
+}
+
+/* Sticky header */
+.uploads-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+/* Header cells */
+.uploads-table th {
+    text-align: left;
+    padding: 14px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9ca3af;
+    background: #f9fafb;
+    border-bottom: 1px solid rgba(17,24,39,0.06);
+}
+
+/* Body rows */
+.uploads-table td {
+    padding: 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #111827;
+
+    border-bottom: 1px solid rgba(17,24,39,0.05);
+}
+
+/* Hover */
+.uploads-table tbody tr {
+    transition: all 0.18s ease;
+}
+
+/* Status */
+.status {
+    width: 50px;
+}
+
+.status i {
+    font-size: 16px;
+}
+
+.status.success i {
+    color: #10b981;
+}
+
+.status.failed i {
+    color: #ef4444;
+}
+
+.status.duplicate i {
+    color: #f59e0b;
+}
+
+/* Amount emphasis */
+.uploads-table td:nth-child(3) {
+    font-weight: 700;
+}
+
+/* Better scrollbars */
+.uploads-table-wrapper::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.uploads-table-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(156,163,175,0.35);
+    border-radius: 999px;
+}
+
+.uploads-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Uploads header stats container */
+.uploads-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 10px;
+    background: rgba(249, 250, 251, 0.85);
+    border: 1px solid rgba(17, 24, 39, 0.05);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+/* each stat block */
+.upload-stat {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* dot base */
+.upload-stat .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 999px;
+    flex-shrink: 0;
+}
+
+/* colors */
+.upload-stat.total .dot {
+    background: #6366f1;
+}
+
+.upload-stat.success .dot {
+    background: #10b981;
+}
+
+.upload-stat.failed .dot {
+    background: #ef4444;
+}
+
+.upload-stat.duplicate .dot {
+    background: #f59e0b;
+}
+
+/* text label */
+.upload-stat .text {
+    font-size: 12px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+/* number */
+.upload-stat .value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.upload-stat + .upload-stat {
+    margin-left: 2px;
+}
+
+/* Success row */
+.uploads-table tbody tr.success-row {
+    background: rgba(16, 185, 129, 0.04);
+}
+
+/* Failed row */
+.uploads-table tbody tr.failed-row {
+    background: rgba(239, 68, 68, 0.04);
+}
+
+.uploads-table tbody tr.duplicate-row {
+    background: rgba(245, 158, 11, 0.04);
+}
+
+.uploads-table tbody tr.success-row {
+    background: rgba(16, 185, 129, 0.03);
+}
+
+.uploads-table tbody tr.failed-row {
+    background: rgba(239, 68, 68, 0.03);
+}
+
+.uploads-table tbody tr.duplicate-row {
+    background: rgba(245, 158, 11, 0.03);
+}
+
+/* Base row */
+.uploads-table tbody tr {
+    transition: background 0.2s ease;
+}
+
+.uploads-table td {
+    color: #374151;
+}
+
+.uploads-table tbody tr.success-row {
+    background: rgba(16, 185, 129, 0.04);
+}
+
+.uploads-table tbody tr.failed-row {
+    background: rgba(239, 68, 68, 0.04);
+}
+
+.uploads-table tbody tr.duplicate-row {
+    background: rgba(245, 158, 11, 0.04);
+}
+
+.uploads-table tbody tr.success-row td:first-child {
+    box-shadow: inset 3px 0 0 #10b981;
+}
+
+.uploads-table tbody tr.failed-row td:first-child {
+    box-shadow: inset 3px 0 0 #ef4444;
+}
+
+.uploads-table tbody tr.duplicate-row td:first-child {
+    box-shadow: inset 3px 0 0 #f59e0b;
 }

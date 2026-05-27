@@ -121,6 +121,109 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <div class="card uploads-card">
+                <div class="uploads-header">
+                    <div class="label">
+                        Recent Transaction Uploads
+                    </div>
+
+                    <div class="uploads-stats">
+
+                        <div class="upload-stat total">
+                            <span class="dot"></span>
+                            <span class="text">Total</span>
+                            <span class="value" id="uploads-total">128</span>
+                        </div>
+
+                        <div class="upload-stat success">
+                            <span class="dot"></span>
+                            <span class="text">Success</span>
+                            <span class="value" id="uploads-success">0</span>
+                        </div>
+
+                        <div class="upload-stat failed">
+                            <span class="dot"></span>
+                            <span class="text">Failed</span>
+                            <span class="value" id="uploads-failed">0</span>
+                        </div>
+
+                        <div class="upload-stat duplicate">
+                            <span class="dot"></span>
+                            <span class="text">Duplicate</span>
+                            <span class="value" id="uploads-duplicate">0</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="uploads-table-wrapper">
+                    <table class="uploads-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Account</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr class="success-row">
+                                <td>28 May</td>
+                                <td>Woolworths Purchase</td>
+                                <td>$82.44</td>
+                                <td>Everyday Account</td>
+                                <td class="status success">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </td>
+                            </tr>
+
+                            <tr class="success-row">
+                                <td>28 May</td>
+                                <td>Transfer to Savings</td>
+                                <td>$500.00</td>
+                                <td>Savings</td>
+                                <td class="status success">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </td>
+                            </tr>
+
+                            <tr class="failed-row">
+                                <td>27 May</td>
+                                <td>BP Fuel Station</td>
+                                <td>$74.91</td>
+                                <td>Visa Debit</td>
+                                <td class="status failed">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </td>
+                            </tr>
+
+                            <tr class="duplicate-row">
+                                <td>27 May</td>
+                                <td>Payroll Deposit</td>
+                                <td>$2,840.00</td>
+                                <td>Main Account</td>
+                                <td class="status failed">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                </td>
+                            </tr>
+
+                            <tr class="success-row">
+                                <td>26 May</td>
+                                <td>Netflix Subscription</td>
+                                <td>$22.99</td>
+                                <td>Visa Debit</td>
+                                <td class="status success">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </body>
 </html>
