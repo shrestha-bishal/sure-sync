@@ -1,4 +1,4 @@
-from sqlmodel import Session, select
+from sqlmodel import Session, select, delete
 from core.db import engine
 from core.models.transaction_db import Transaction as TransactionDb
 from core.models.transaction import Transaction
@@ -19,3 +19,9 @@ def create_transaction(account_id: int, transaction: Transaction) -> bool:
         session.add(transaction_db)
         session.commit()
         session.refresh(transaction_db)
+
+def truncate_transactions():
+    with Session(engine) as session:
+        statement = delete(TransactionDb)
+        session.exec(statement)
+        session.commit()

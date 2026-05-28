@@ -4,6 +4,7 @@ from worker.helpers.logger import log
 from worker.helpers.file import move, read_json, write_json
 from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, VOLUME_CONSUME_PATH, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
+from core.services.transaction_service import truncate_transactions
 from core.clients.api_client import ApiClient
 from core.models.transaction import Transaction
 from core.models.stats import AppStats
@@ -34,6 +35,8 @@ log(f"Scan interval       : {LOOKUP_INTERVAL}s")
 
 parser = Parser()
 api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
+
+truncate_transactions()
 init_db()
 
 # Fetching Sure account information
