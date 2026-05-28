@@ -8,6 +8,7 @@ from core.clients.api_client import ApiClient
 from core.models.transaction import Transaction
 from core.models.stats import AppStats
 from core.services.account_service import get_accounts
+from core.services.transaction_service import create_transaction
 from datetime import datetime
 from parsers.parser import Parser
 
@@ -105,7 +106,8 @@ while True:
                     sure_account_id=sure_account_id,
                     data=data)
 
-                api_client.create_transaction(transaction=transaction) 
+                api_client.create_transaction(transaction=transaction)
+                create_transaction(mapping.id, transaction)
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
             stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
