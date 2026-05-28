@@ -79,7 +79,7 @@ The service will automatically process any OFX files in the **consume/** folder.
 
 ### Web Dashboard
 - Access the dashboard at `http://localhost:9000` or your configured port
-- Use **Settings → Accounts** to add mapped bank accounts
+- Use **Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
 
 <img width="1920" height="959" alt="Sure-Sync-Web-05-28-2026_03_23_PM" src="https://github.com/user-attachments/assets/5bac5e64-591e-4a7f-92a1-5229a31a1219" />
