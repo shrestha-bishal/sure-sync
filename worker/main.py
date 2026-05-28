@@ -109,8 +109,8 @@ while True:
                     sure_account_id=sure_account_id,
                     data=data)
 
-                api_client.create_transaction(transaction=transaction)
-                create_transaction(mapping.id, transaction)
+                result = api_client.create_transaction(transaction=transaction)
+                create_transaction(mapping.id, transaction, result)
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
             stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
