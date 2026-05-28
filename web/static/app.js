@@ -18,13 +18,14 @@ async function updateStats() {
 }
 
 let lastFetchedDate = null;
+const seenTransactions = new Set();
+
 let total = 0;
 let success = 0;
 let failed = 0;
 let duplicate = 0;
 
 async function loadTransactions() {
-        
     try {
         let url = '/api/transactions';
 
@@ -40,34 +41,39 @@ async function loadTransactions() {
         const data = await response.json();
 
         if (!data.length) return;
-        total += data.length;
 
         const tbody = document.getElementById('uploads-tbody');
 
-        data.forEach(tx => {
-            console.log('New transaction:', tx);
-            const row = document.createElement('tr');
+        for (let i = 0; i < data.length; i++) {
+            const tx = data[i];
+
+            if (seenTransactions.has(tx.id)) continue;
+            seenTransactions.add(tx.id);
 
             let statusClass = '';
             let iconStatus = 'failed';
             let icon = '';
 
-            if(tx.is_successful && !tx.is_duplicate) {
+            if (tx.is_successful && !tx.is_duplicate) {
                 statusClass = 'success-row';
                 icon = 'fa-circle-check';
                 iconStatus = 'success';
                 success++;
-            } else if(tx.is_duplicate) {
+            } else if (tx.is_duplicate) {
                 statusClass = 'duplicate-row';
                 icon = 'fa-circle-xmark';
+                iconStatus = 'duplicate';
                 duplicate++;
-            } else if(tx.is_failed) {
+            } else if (tx.is_failed) {
                 statusClass = 'failed-row';
                 icon = 'fa-circle-xmark';
+                iconStatus = 'failed';
                 failed++;
             }
 
-            row.className = statusClass;
+            const row = document.createElement('tr');
+            row.classList.add(statusClass);
+            row.classList.add('new-row');
 
             const amount = new Intl.NumberFormat('en-AU', {
                 style: 'currency',
@@ -79,24 +85,29 @@ async function loadTransactions() {
                 <td>${tx.description}</td>
                 <td>${amount}</td>
                 <td>${tx.account}</td>
-                <td class="status ${iconStatus}" title="${tx.message}">
+                <td class="status ${iconStatus}" title="${tx.message || ''}">
                     <i class="fa-solid ${icon}"></i>
                 </td>
             `;
 
             tbody.prepend(row);
 
-            document.getElementById('uploads-total').innerText = total;
-            document.getElementById('uploads-success').innerText = success;
-            document.getElementById('uploads-failed').innerText = failed;
-            document.getElementById('uploads-duplicate').innerText = duplicate;
-        });
+            total++;
+
+            await new Promise(r => setTimeout(r, 120));
+        }
+
+        document.getElementById('uploads-total').innerText = total;
+        document.getElementById('uploads-success').innerText = success;
+        document.getElementById('uploads-failed').innerText = failed;
+        document.getElementById('uploads-duplicate').innerText = duplicate;
 
         const newest = data.reduce((max, tx) => {
             return tx.created_at > max ? tx.created_at : max;
         }, lastFetchedDate || data[0].created_at);
 
         lastFetchedDate = newest;
+
     } catch (error) {
         console.error('Failed to load transactions', error);
     }

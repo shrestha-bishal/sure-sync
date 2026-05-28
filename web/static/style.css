@@ -793,3 +793,12 @@ body {
 .uploads-table tbody tr.duplicate-row td:first-child {
     box-shadow: inset 3px 0 0 #f59e0b;
 }
+
+.new-row {
+    animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+from {
+    opacity: 0;
+    transform: translateY(14px);
+}
