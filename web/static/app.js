@@ -84,7 +84,7 @@ async function loadTransactions() {
                 <td>${tx.date}</td>
                 <td>${tx.description}</td>
                 <td>${amount}</td>
-                <td>${tx.account}</td>
+                <td>${mapped_accounts.find(a => a.id === tx.account_id)?.name || 'Unknown'}</td>
                 <td class="status ${iconStatus}" title="${tx.message || ''}">
                     <i class="fa-solid ${icon}"></i>
                 </td>

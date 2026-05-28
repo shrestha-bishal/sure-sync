@@ -180,5 +180,5 @@
 
 <script>
     const allSureAccounts = {{ sure_accounts | tojson }};
-    const mappedSureAccountIds = {{ accounts | map(attribute='sure_account_id') | list | tojson }};
+    const mapped_accounts = {{ mapped_accounts | tojson }};
 </script>
