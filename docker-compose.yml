@@ -1,6 +1,9 @@
 services:
   worker:
-    image: ghcr.io/shrestha-bishal/sure-sync:latest
+    build: 
+        context: .
+        target: worker-stage
+    image: ghcr.io/shrestha-bishal/sure-sync:worker-latest
     container_name: sure-sync-worker
     user: "0:0"
     env_file:
@@ -15,7 +18,10 @@ services:
     restart: unless-stopped
 
   web:
-    image: ghcr.io/shrestha-bishal/sure-sync:latest
+    build: 
+        context: .
+        target: web-stage
+    image: ghcr.io/shrestha-bishal/sure-sync:web-latest
     container_name: sure-sync-web
     env_file:
       - .env

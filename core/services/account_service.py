@@ -50,7 +50,8 @@ def delete_account(account_id: int) -> bool:
 
 def upsert_account_sync(account_id: int):
     with Session(engine) as session:
-        account_sync = session.get(AccountSync, account_id)
+        statement = select(AccountSync).where(AccountSync.account_id == account_id)
+        account_sync = session.execute(statement).scalar_one_or_none()
 
         if not account_sync:
             account_sync = AccountSync(account_id=account_id)
