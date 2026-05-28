@@ -1,12 +1,11 @@
 # sure-sync
-Sync OFX transactions files to the Sure (Maybe) Finance.
+Sync OFX transactions files to the Sure (~~Maybe~~) Finance.
 
 `Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local.
 
 The current release includes a web dashboard for live status, processing statistics, and account mapping management.
 
-<img width="1920" height="959" alt="Sure-Sync-Web-05-28-2026_03_23_PM" src="https://github.com/user-attachments/assets/5bac5e64-591e-4a7f-92a1-5229a31a1219" />
-<img width="1920" height="1080" alt="Sure-05-28-2026_03_29_PM" src="https://github.com/user-attachments/assets/8fa10b17-83c0-4700-a91f-898e82666b0b" />
+<img width="800" height="449" alt="Recording2026-05-28152242-ezgif com-video-to-gif-converter" src="https://github.com/user-attachments/assets/57073eec-2250-4389-b0a3-c9840887f596" />
 
 ## Key Workflow:
 - Consume OFX files – Reads exported bank statements from a local consume folder for processing.
@@ -83,8 +82,10 @@ The service will automatically process any OFX files in the **consume/** folder.
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
 
+<img width="1920" height="959" alt="Sure-Sync-Web-05-28-2026_03_23_PM" src="https://github.com/user-attachments/assets/5bac5e64-591e-4a7f-92a1-5229a31a1219" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/277b877f-c54f-434b-8e33-3a92b81305ca" />
+<img width="1920" height="1080" alt="Sure-05-28-2026_03_29_PM" src="https://github.com/user-attachments/assets/8fa10b17-83c0-4700-a91f-898e82666b0b" />
 
 ### Logs
 - Provides real-time visibility into system activity, including transaction processing, errors, and background job execution.
