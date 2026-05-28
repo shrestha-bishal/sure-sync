@@ -5,7 +5,7 @@ class Parser:
     def __init__(self):
         self.parsers = {
             "ofx": OfxParser(),
-            "yml": AccountMappingParser()
+            #"yml": AccountMappingParser()
         }
 
     def parse(self, file_path):

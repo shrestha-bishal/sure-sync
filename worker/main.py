@@ -99,7 +99,8 @@ while True:
                     log(f"Account {key} not mapped. Skipping.")
                     continue
                 
-                sure_account_id = mapping.get("sure_account_id")
+                sure_account_id = mapping.sure_account_id
+
                 transaction = Transaction.from_ofx_data(
                     sure_account_id=sure_account_id,
                     data=data)
