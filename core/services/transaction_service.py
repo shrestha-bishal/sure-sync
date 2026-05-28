@@ -4,6 +4,7 @@ from core.models.transaction_db import Transaction as TransactionDb
 from core.models.creation_result import CreationResult
 from core.models.transaction import Transaction
 from typing import Optional
+from datetime import datetime
 
 def create_transaction(account_id: int, transaction: Transaction, result: CreationResult) -> bool:
     with Session(engine) as session:
@@ -32,12 +33,14 @@ def get_all_transactions(start_date: Optional[str] = None, end_date: Optional[st
     with Session(engine) as session:
         statement = select(TransactionDb)
         if start_date:
-            statement = statement.where(TransactionDb.created_at >= start_date)
+            statement = statement.where(TransactionDb.created_at > parse_dt(start_date))
         if end_date:
-            statement = statement.where(TransactionDb.created_at <= end_date)
-            
+            statement = statement.where(TransactionDb.created_at <= parse_dt(end_date))
+
         statement = statement.order_by(TransactionDb.date.asc())
         
         results = session.exec(statement)
         return results.all()
-    
+
+def parse_dt(value: str):
+    return datetime.fromisoformat(value)

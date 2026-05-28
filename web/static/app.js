@@ -17,6 +17,76 @@ async function updateStats() {
     }
 }
 
+let lastFetchedDate = null;
+async function loadTransactions() {
+    try {
+        let url = '/api/transactions';
+
+        if (lastFetchedDate) {
+            url += `?start_date=${encodeURIComponent(lastFetchedDate)}`;
+        }
+
+        const response = await fetch(url);
+
+        if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+
+        if (!data.length) return;
+
+        const tbody = document.getElementById('uploads-tbody');
+
+        data.forEach(tx => {
+            console.log('New transaction:', tx);
+            const row = document.createElement('tr');
+
+            let statusClass = '';
+            let iconStatus = 'failed';
+            let icon = '';
+
+            if(tx.is_successful && !tx.is_duplicate) {
+                statusClass = 'success-row';
+                icon = 'fa-circle-check';
+                iconStatus = 'success';
+            } else if(tx.is_duplicate) {
+                statusClass = 'duplicate-row';
+                icon = 'fa-circle-xmark';
+            } else if(tx.is_failed) {
+                statusClass = 'failed-row';
+                icon = 'fa-circle-xmark';
+            }
+
+            row.className = statusClass;
+
+            const amount = new Intl.NumberFormat('en-AU', {
+                style: 'currency',
+                currency: 'AUD'
+            }).format(tx.amount);
+
+            row.innerHTML = `
+                <td>${tx.date}</td>
+                <td>${tx.description}</td>
+                <td>${amount}</td>
+                <td>${tx.account}</td>
+                <td class="status ${iconStatus}" title="${tx.message}">
+                    <i class="fa-solid ${icon}"></i>
+                </td>
+            `;
+
+            tbody.prepend(row);
+        });
+
+        const newest = data.reduce((max, tx) => {
+            return tx.created_at > max ? tx.created_at : max;
+        }, lastFetchedDate || data[0].created_at);
+
+        lastFetchedDate = newest;
+    } catch (error) {
+        console.error('Failed to load transactions', error);
+    }
+}
+
 async function saveAccount() {
     const form = document.getElementById('accountForm');
     const formData = new FormData(form);
@@ -53,6 +123,9 @@ async function saveAccount() {
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
     populateSureAccountNames();
+    loadTransactions();
+
+    setInterval(loadTransactions, 3000);
 });
 
 
