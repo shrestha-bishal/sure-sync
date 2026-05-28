@@ -1,3 +1,4 @@
+const pollingInterval = 3000
 let editingAccountId = null;
 
 async function updateStats() {
@@ -13,7 +14,7 @@ async function updateStats() {
         document.getElementById('files-failed').innerText = stats.metrics.failed || 0
     } catch (error) {
     } finally {
-        setTimeout(updateStats, 3000);
+        setTimeout(updateStats, pollingInterval);
     }
 }
 
@@ -152,8 +153,8 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTransactions();
     loadAccountSync();
 
-    setInterval(loadTransactions, 3000);
-    setInterval(loadAccountSync, 10000);
+    setInterval(loadTransactions, pollingInterval);
+    setInterval(loadAccountSync, pollingInterval);
 });
 
 
