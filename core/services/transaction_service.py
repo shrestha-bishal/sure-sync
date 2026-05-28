@@ -3,6 +3,7 @@ from core.db import engine
 from core.models.transaction_db import Transaction as TransactionDb
 from core.models.creation_result import CreationResult
 from core.models.transaction import Transaction
+from typing import Optional
 
 def create_transaction(account_id: int, transaction: Transaction, result: CreationResult) -> bool:
     with Session(engine) as session:
@@ -26,3 +27,17 @@ def truncate_transactions():
         statement = delete(TransactionDb)
         session.exec(statement)
         session.commit()
+
+def get_all_transactions(start_date: Optional[str] = None, end_date: Optional[str] = None):
+    with Session(engine) as session:
+        statement = select(TransactionDb)
+        if start_date:
+            statement = statement.where(TransactionDb.created_at >= start_date)
+        if end_date:
+            statement = statement.where(TransactionDb.created_at <= end_date)
+            
+        statement = statement.order_by(TransactionDb.date.asc())
+        
+        results = session.exec(statement)
+        return results.all()
+    

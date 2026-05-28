@@ -2,6 +2,9 @@ from fastapi import APIRouter
 from core.models.stats import AppStats
 from core.models.account import Account
 from core.services.account_service import get_accounts as get_all_accounts, create_account, update_account, delete_account, get_account_by_id
+from core.services.transaction_service import get_all_transactions
+from datetime import datetime
+from typing import Optional
 
 router = APIRouter(prefix="/api")
 
@@ -36,3 +39,7 @@ async def edit_account(account_id: int, account: Account):
 async def remove_account(account_id: int):
     success = delete_account(account_id)
     return {"success": success}
+
+@router.get("/transactions")
+async def get_transactions(start_date: Optional[str] = None, end_date: Optional[str] = None):
+    return get_all_transactions(start_date=start_date, end_date=end_date)
