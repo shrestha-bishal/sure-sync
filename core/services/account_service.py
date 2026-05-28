@@ -1,6 +1,8 @@
 from sqlmodel import Session, select
 from core.db import engine
 from core.models.account import Account
+from core.models.account_sync import AccountSync
+from datetime import datetime
 
 def create_account(account: Account) -> bool:
     with Session(engine) as session:
@@ -45,3 +47,17 @@ def delete_account(account_id: int) -> bool:
         session.delete(account)
         session.commit()
         return True
+
+def upsert_account_sync(account_id: int):
+    with Session(engine) as session:
+        account_sync = session.get(AccountSync, account_id)
+
+        if not account_sync:
+            account_sync = AccountSync(account_id=account_id)
+
+        account_sync.last_synced_at = datetime.utcnow()
+        session.add(account_sync)
+        session.commit()
+        session.refresh(account_sync)
+
+        return account_sync

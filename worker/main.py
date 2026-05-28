@@ -8,7 +8,7 @@ from core.services.transaction_service import truncate_transactions
 from core.clients.api_client import ApiClient
 from core.models.transaction import Transaction
 from core.models.stats import AppStats
-from core.services.account_service import get_accounts
+from core.services.account_service import get_accounts, upsert_account_sync
 from core.services.transaction_service import create_transaction
 from datetime import datetime
 from parsers.parser import Parser
@@ -111,6 +111,7 @@ while True:
 
                 result = api_client.create_transaction(transaction=transaction)
                 create_transaction(mapping.id, transaction, result)
+                upsert_account_sync(mapping.id)
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
             stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
