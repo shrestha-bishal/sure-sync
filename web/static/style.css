@@ -795,10 +795,28 @@ body {
 }
 
 .new-row {
-    animation: slideFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-10px);
+    overflow: hidden;
+
+    animation: expandRow 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-from {
-    opacity: 0;
-    transform: translateY(14px);
+@keyframes expandRow {
+    0% {
+        max-height: 0;
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    100% {
+        max-height: 120px;
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
