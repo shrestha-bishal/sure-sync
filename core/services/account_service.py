@@ -61,3 +61,9 @@ def upsert_account_sync(account_id: int):
         session.refresh(account_sync)
 
         return account_sync
+
+def get_account_sync():
+    with Session(engine) as session:
+        statement = select(AccountSync)
+        results = session.exec(statement)
+        return results.all()

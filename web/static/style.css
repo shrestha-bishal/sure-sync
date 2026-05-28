@@ -521,19 +521,22 @@ body {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    width: 100%;
 }
 
 .dashboard-account-stats {
-    display: flex;
-    align-items: center;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%;
+    max-width: 370px;
 }
 
 .dashboard-stat {
     display: flex;
     flex-direction: column;
     gap: 4px;
-    min-width: 140px;
+    min-width: 0;
 }
 
 .dashboard-stat-label {

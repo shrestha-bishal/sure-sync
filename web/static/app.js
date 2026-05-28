@@ -150,8 +150,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateStats();
     populateSureAccountNames();
     loadTransactions();
+    loadAccountSync();
 
     setInterval(loadTransactions, 3000);
+    setInterval(loadAccountSync, 10000);
 });
 
 
@@ -254,6 +256,26 @@ function populateSureAccounts(selectedId = null) {
     }
 }
 
+let syncMap = {};
+
+async function loadAccountSync() {
+    try {
+        const res = await fetch('/api/accounts-sync');
+
+        if (!res.ok) throw new Error('Failed to load account sync');
+
+        const data = await res.json();
+
+        syncMap = Object.fromEntries(
+            data.map(a => [String(a.account_id), a.last_synced_at])
+        );
+
+        renderSyncTimes();
+    } catch (err) {
+        console.error('account sync error', err);
+    }
+}
+
 function populateSureAccountNames() {
     document
         .querySelectorAll(".sure-account-name")
@@ -271,4 +293,49 @@ function populateSureAccountNames() {
                 el.remove();
             }
         });
+}
+
+function formatLastSync(utcString) {
+    if (!utcString) return "Never";
+
+    const utcDate = new Date(utcString);
+    const now = new Date();
+
+    const diffMs = now - utcDate;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHr = Math.floor(diffMin / 60);
+    const diffDay = Math.floor(diffHr / 24);
+
+    if (diffSec < 60) {
+        return `${diffSec}s ago`;
+    }
+
+    if (diffMin < 60) {
+        return `${diffMin}m ago`;
+    }
+
+    if (diffHr < 24) {
+        return `${diffHr}h ago`;
+    }
+
+    if (diffDay === 1) {
+        return "Yesterday";
+    }
+
+    return utcDate.toLocaleDateString(undefined, {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+}
+
+function renderSyncTimes() {
+    document.querySelectorAll("[data-account-id]").forEach(el => {
+        const id = String(el.dataset.accountId);
+        const utc = syncMap[id];
+
+        el.textContent = formatLastSync(utc);
+    });
 }
