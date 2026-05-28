@@ -13,3 +13,6 @@ class Transaction(SQLModel, table=True):
         is_successful: bool = Field(default=True)
         is_duplicate: bool = Field(default=False)
         message: Optional[str] = Field(default=None)
+   
+        created_at: datetime = Field(default_factory=datetime.utcnow)
+
