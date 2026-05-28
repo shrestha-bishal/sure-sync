@@ -1,8 +1,8 @@
 import os
 import time
-from worker.helpers.logger import log
-from worker.helpers.file import move, read_json, write_json
-from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, VOLUME_CONSUME_PATH, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
+from core.helpers.logger import log
+from core.helpers.file import move, read_json, write_json
+from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
 from core.services.transaction_service import truncate_transactions
 from core.clients.api_client import ApiClient
@@ -28,9 +28,9 @@ os.makedirs(CONSUME_PATH, exist_ok=True)
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 os.makedirs(FAILED_DIR, exist_ok=True)
 
-log(f"Consume directory   : {VOLUME_CONSUME_PATH}")
-log(f"Processed directory : {VOLUME_CONSUME_PATH}/processed")
-log(f"Failed directory    : {VOLUME_CONSUME_PATH}/failed")
+log(f"Consume directory   : {CONSUME_PATH}")
+log(f"Processed directory : {CONSUME_PATH}/processed")
+log(f"Failed directory    : {CONSUME_PATH}/failed")
 log(f"Scan interval       : {LOOKUP_INTERVAL}s")
 
 parser = Parser()

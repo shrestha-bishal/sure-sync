@@ -1,4 +1,4 @@
-from worker.helpers.logger import log
+from core.helpers.logger import log
 import re
 from core.models.transaction import Transaction
 from core.models.creation_result import CreationResult
