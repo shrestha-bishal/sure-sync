@@ -79,6 +79,9 @@ while True:
         continue
 
     for file_name in os.listdir(CONSUME_PATH):
+        if file_name.startswith("."):
+            continue
+
         file_path = os.path.join(CONSUME_PATH, file_name)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         new_file_name = f"{timestamp} {file_name}"
@@ -86,6 +89,8 @@ while True:
         # Skip directories (processed/, failed/)
         if not os.path.isfile(file_path):
             continue
+
+        log(f"Processing file: {file_name}")
 
         # Processing the data
         try:
