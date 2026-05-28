@@ -37,7 +37,7 @@ def get_all_transactions(start_date: Optional[str] = None, end_date: Optional[st
         if end_date:
             statement = statement.where(TransactionDb.created_at <= parse_dt(end_date))
 
-        statement = statement.order_by(TransactionDb.date.asc())
+        statement = statement.order_by(TransactionDb.created_at.asc())
         
         results = session.exec(statement)
         return results.all()
