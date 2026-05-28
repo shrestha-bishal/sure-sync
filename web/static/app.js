@@ -157,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(loadAccountSync, pollingInterval);
 });
 
-
 function openModal() {
     editingAccountId = null;
     document.getElementById("modal").style.display = "flex";
