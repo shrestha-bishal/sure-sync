@@ -295,10 +295,16 @@ function populateSureAccountNames() {
         });
 }
 
+function parseUTC(utcString) {
+    if (!utcString) return null;
+    const cleaned = utcString.replace(/\.(\d{3})\d+/, '.$1');
+    return new Date(cleaned + "Z");
+}
+
 function formatLastSync(utcString) {
     if (!utcString) return "Never";
 
-    const utcDate = new Date(utcString);
+    const utcDate = parseUTC(utcString);
     const now = new Date();
 
     const diffMs = now - utcDate;
