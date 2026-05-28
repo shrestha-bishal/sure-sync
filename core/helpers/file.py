@@ -1,7 +1,7 @@
 import os
 import shutil
 import json
-from worker.helpers.logger import log
+from core.helpers.logger import log
 
 def move(src_path, dest_path):
     os.makedirs(os.path.dirname(dest_path), exist_ok=True)

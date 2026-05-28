@@ -19,7 +19,6 @@ CMD ["python", "-u", "worker/main.py"]
 
 # Stage 3: web
 FROM base AS web-stage
-COPY worker/helpers ./worker/helpers
 COPY web/ ./web/
 
 CMD [ "uvicorn", "web.app:app", "--host", "0.0.0.0", "--port", "8000" ]
