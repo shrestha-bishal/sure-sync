@@ -25,11 +25,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push image
+      - name: Build and push Worker image
         uses: docker/build-push-action@v5
         with:
+          context: .
+          target: worker-stage
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/sure-sync:latest
-            ghcr.io/${{ github.repository_owner }}/sure-sync:${{ github.sha }}
-            ghcr.io/${{ github.repository_owner }}/sure-sync:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/sure-sync:worker-latest
+            ghcr.io/${{ github.repository_owner }}/sure-sync:worker-${{ github.sha }}
+
+      - name: Build and push Web image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          target: web-stage
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/sure-sync:web-latest
+            ghcr.io/${{ github.repository_owner }}/sure-sync:web-${{ github.sha }}
