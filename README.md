@@ -4,6 +4,8 @@ Sync OFX transactions files to the Sure (Maybe) Finance.
 `Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local.
 
 The current release includes a web dashboard for live status, processing statistics, and account mapping management.
+<img width="1920" height="959" alt="Sure-Sync-Web-05-28-2026_03_23_PM" src="https://github.com/user-attachments/assets/5bac5e64-591e-4a7f-92a1-5229a31a1219" />
+<img width="1920" height="1080" alt="Sure-05-28-2026_03_29_PM" src="https://github.com/user-attachments/assets/8fa10b17-83c0-4700-a91f-898e82666b0b" />
 
 ## Key Workflow:
 - Consume OFX files – Reads exported bank statements from a local consume folder for processing.
@@ -12,10 +14,6 @@ The current release includes a web dashboard for live status, processing statist
 - Transaction creation – Creates new transactions in ~~Maybe~~ Sure automatically.
 - Archiving – Moves processed OFX files to a local archive folder for record-keeping.
 - Localised control – Users maintain full control of credentials, configuration, and data without storing secrets in the repository.
-
-<img width="813" height="293" alt="image" src="https://github.com/user-attachments/assets/980dbeae-1f8d-40ba-8b17-8f18693f4197" />
-<img width="651" height="111" alt="image" src="https://github.com/user-attachments/assets/a78d7eaf-35c0-426f-bdb7-4bbbb2f84db5" />
-<img width="614" height="48" alt="image" src="https://github.com/user-attachments/assets/80d7c0bb-4dc3-4bf3-91b6-d8578ac891ae" />
 
 ## Features
 - Localised, file-based workflow (no need for bank APIs)  
@@ -83,11 +81,16 @@ The service will automatically process any OFX files in the **consume/** folder.
 - Access the dashboard at `http://localhost:9000` or your configured port
 - Use **Settings → Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
-<img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/1640e146-b70c-4586-9389-19c63f665eeb" />
+
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/277b877f-c54f-434b-8e33-3a92b81305ca" />
 
-> More updates on the way
+### Logs
+- Provides real-time visibility into system activity, including transaction processing, errors, and background job execution.
+  
+<img width="813" height="293" alt="image" src="https://github.com/user-attachments/assets/980dbeae-1f8d-40ba-8b17-8f18693f4197" />
+<img width="651" height="111" alt="image" src="https://github.com/user-attachments/assets/a78d7eaf-35c0-426f-bdb7-4bbbb2f84db5" />
+<img width="614" height="48" alt="image" src="https://github.com/user-attachments/assets/80d7c0bb-4dc3-4bf3-91b6-d8578ac891ae" />
 
 ### Contributing
 - Fork the repo, make changes, and submit a pull request.
