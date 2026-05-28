@@ -18,7 +18,13 @@ async function updateStats() {
 }
 
 let lastFetchedDate = null;
+let total = 0;
+let success = 0;
+let failed = 0;
+let duplicate = 0;
+
 async function loadTransactions() {
+        
     try {
         let url = '/api/transactions';
 
@@ -34,6 +40,7 @@ async function loadTransactions() {
         const data = await response.json();
 
         if (!data.length) return;
+        total += data.length;
 
         const tbody = document.getElementById('uploads-tbody');
 
@@ -49,12 +56,15 @@ async function loadTransactions() {
                 statusClass = 'success-row';
                 icon = 'fa-circle-check';
                 iconStatus = 'success';
+                success++;
             } else if(tx.is_duplicate) {
                 statusClass = 'duplicate-row';
                 icon = 'fa-circle-xmark';
+                duplicate++;
             } else if(tx.is_failed) {
                 statusClass = 'failed-row';
                 icon = 'fa-circle-xmark';
+                failed++;
             }
 
             row.className = statusClass;
@@ -75,6 +85,11 @@ async function loadTransactions() {
             `;
 
             tbody.prepend(row);
+
+            document.getElementById('uploads-total').innerText = total;
+            document.getElementById('uploads-success').innerText = success;
+            document.getElementById('uploads-failed').innerText = failed;
+            document.getElementById('uploads-duplicate').innerText = duplicate;
         });
 
         const newest = data.reduce((max, tx) => {
