@@ -4,10 +4,12 @@ from worker.helpers.logger import log
 from worker.helpers.file import move, read_json, write_json
 from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, VOLUME_CONSUME_PATH, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
+from core.services.transaction_service import truncate_transactions
 from core.clients.api_client import ApiClient
 from core.models.transaction import Transaction
 from core.models.stats import AppStats
-from core.services.account_service import get_accounts
+from core.services.account_service import get_accounts, upsert_account_sync
+from core.services.transaction_service import create_transaction
 from datetime import datetime
 from parsers.parser import Parser
 
@@ -33,6 +35,8 @@ log(f"Scan interval       : {LOOKUP_INTERVAL}s")
 
 parser = Parser()
 api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
+
+truncate_transactions()
 init_db()
 
 # Fetching Sure account information
@@ -99,12 +103,15 @@ while True:
                     log(f"Account {key} not mapped. Skipping.")
                     continue
                 
-                sure_account_id = mapping.get("sure_account_id")
+                sure_account_id = mapping.sure_account_id
+
                 transaction = Transaction.from_ofx_data(
                     sure_account_id=sure_account_id,
                     data=data)
 
-                api_client.create_transaction(transaction=transaction) 
+                result = api_client.create_transaction(transaction=transaction)
+                create_transaction(mapping.id, transaction, result)
+                upsert_account_sync(mapping.id)
 
             move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
             stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))

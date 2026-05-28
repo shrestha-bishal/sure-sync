@@ -34,6 +34,14 @@ def home(request: Request):
     accounts = get_accounts()
     filtered_accounts = [a for a in accounts if a.sure_account_id in {sa['id'] for sa in sure_accounts}]
     recent_transactions = {}
+    mapped_accounts = [
+        {
+            "id": a.id,
+            "sure_account_id": a.sure_account_id,
+            "name": a.account_name
+        }
+        for a in accounts
+    ]
     for account in filtered_accounts:
         response = api_client.get_transactions(params={"account_id": account.sure_account_id})
         txs = response.get("transactions", [])
@@ -51,7 +59,8 @@ def home(request: Request):
         context={
             "sure_accounts": sure_accounts,
             "filtered_accounts": filtered_accounts,
-            "recent_transactions": recent_transactions
+            "recent_transactions": recent_transactions,
+            "mapped_accounts": mapped_accounts
         }
     )
     

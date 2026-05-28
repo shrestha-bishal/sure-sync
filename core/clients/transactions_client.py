@@ -1,6 +1,7 @@
 from worker.helpers.logger import log
 import re
 from core.models.transaction import Transaction
+from core.models.creation_result import CreationResult
 
 class TransactionsClient:
     def __init__(self, base_client):
@@ -73,11 +74,12 @@ class TransactionsClient:
             page += 1
         return False
     
-    def create(self, transaction: Transaction):
+    def create(self, transaction: Transaction) -> CreationResult:
         required = [transaction.account_id, transaction.date, transaction.amount, transaction.name]
         if not all(required):
             log(f"[ERROR] Missing required transaction fields: {required}")
-            raise ValueError("Missing required transaction fields")
+            return CreationResult(is_successful=False, is_duplicate=False, message="Missing required transaction fields"), 
+            #raise ValueError("Missing required transaction fields")
         
         # checking if the transaction exists
         if self.exists(transaction):
@@ -90,7 +92,7 @@ class TransactionsClient:
                 f"Nature: {transaction.nature}"
             )
 
-            return None
+            return CreationResult(is_successful=True, is_duplicate=True, message="Duplicate transaction")
 
         payload = {"transaction": transaction.to_json()}
         log(
@@ -104,4 +106,5 @@ class TransactionsClient:
 
         response = self.base.post("/transactions", json=payload)
         log(f"Transaction created: {response}")
-        return response.get("transaction", response)
+        #return response.get("transaction", response)
+        return CreationResult(is_successful=True, is_duplicate=False, message="Transaction created successfully")
