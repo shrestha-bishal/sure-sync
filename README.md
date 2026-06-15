@@ -9,7 +9,7 @@ The current release includes a web dashboard for live status, processing statist
 
 ## Key Workflow:
 - Consume OFX files – Reads exported bank statements from a local consume folder for processing.
-- Account mapping – Maps bank accounts to Sure accounts.
+- Account mapping – Maps bank accounts to Sure accounts using ~~a user-defined YAML configuration (<=v2.0.0)~~ dashboard.
 - Deduplication – Checks for and skips transactions that have already been processed to prevent duplicates.
 - Transaction creation – Creates new transactions in ~~Maybe~~ Sure automatically.
 - Archiving – Moves processed OFX files to a local archive folder for record-keeping.
@@ -19,7 +19,7 @@ The current release includes a web dashboard for live status, processing statist
 - Localised, file-based workflow (no need for bank APIs)  
 - Docker-first deployment  
 - Automatic deduplication of transactions  
-- Easy account mapping through YAML  
+- Easy account mapping through ~~YAML (<=v2.0.0)~~ dashboard
 - Web dashboard for monitoring stats and managing account mappings
 - Persistent state storage in a host-mounted data directory
 - Secure local credentials via `.env`
