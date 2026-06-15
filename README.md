@@ -9,7 +9,7 @@ The current release includes a web dashboard for live status, processing statist
 
 ## Key Workflow:
 - Consume OFX files – Reads exported bank statements from a local consume folder for processing.
-- Account mapping – Maps bank accounts to Sure accounts using a user-defined YAML configuration.
+- Account mapping – Maps bank accounts to Sure accounts.
 - Deduplication – Checks for and skips transactions that have already been processed to prevent duplicates.
 - Transaction creation – Creates new transactions in ~~Maybe~~ Sure automatically.
 - Archiving – Moves processed OFX files to a local archive folder for record-keeping.
