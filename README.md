@@ -65,7 +65,7 @@ Edit `.env` to set your Sure API credentials and folder paths. The main `.env` v
 | `API_KEY` | Sure API key with read/write access | `your-api-key` |
 | `LOOKUP_INTERVAL` | Poll interval for scanning files (seconds) | `5` |
 
-> To generate an API key in Sure, navigate to **Accounts > Settings > API Key**, select **Create New Key**, choose **Read / Write** permissions, and save the generated API key and copy the API base URL up to `/api/v1/`.
+> To generate an API key in ~~Maybe~~ Sure, navigate to **Accounts > Settings > API Key**, select **Create New Key**, choose **Read / Write** permissions, and save the generated API key and copy the API base URL up to `/api/v1/`.
 
 - Start the service
 > Make sure the ~~Maybe~~ Sure is running before composing.
