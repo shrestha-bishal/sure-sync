@@ -65,6 +65,8 @@ Edit `.env` to set your Sure API credentials and folder paths. The main `.env` v
 | `API_KEY` | Sure API key with read/write access | `your-api-key` |
 | `LOOKUP_INTERVAL` | Poll interval for scanning files (seconds) | `5` |
 
+> To generate an API key, navigate to **Accounts > Settings > API Key**, select **Create New Key**, choose **Read / Write** permissions, and save the generated API key and copy the API base URL up to `/api/v1/`.
+
 - Start the service
 > Make sure the ~~Maybe~~ Sure is running before composing.
 ```bash
@@ -86,6 +88,8 @@ The service will automatically process any OFX files in the **consume/** folder.
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/456ae7ba-5b36-4a21-9089-661a7b879de5" />
 <img width="1920" height="959" alt="image" src="https://github.com/user-attachments/assets/277b877f-c54f-434b-8e33-3a92b81305ca" />
 <img width="1920" height="1080" alt="Sure-05-28-2026_03_29_PM" src="https://github.com/user-attachments/assets/8fa10b17-83c0-4700-a91f-898e82666b0b" />
+
+> Note: Please restart the stack using `docker compose up -d` after account addition (this will be streamlined in future update).
 
 ### Logs
 - Provides real-time visibility into system activity, including transaction processing, errors, and background job execution.
