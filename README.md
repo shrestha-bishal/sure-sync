@@ -47,7 +47,6 @@ docker pull ghcr.io/shrestha-bishal/sure-sync-worker:latest
 Runs both worker and web dashboard via Docker Compose.
 - Worker + UI together
 - Includes easy file and transaction monitoring and account mapping interface
-- Provides account mapping interface
 
 ```bash
 docker pull ghcr.io/shrestha-bishal/sure-sync
