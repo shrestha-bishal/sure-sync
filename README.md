@@ -46,7 +46,8 @@ docker pull ghcr.io/shrestha-bishal/sure-sync-worker:latest
 ### Full Stack Mode (worker + web): 
 Runs both worker and web dashboard via Docker Compose.
 - Worker + UI together
-- Includes easy file and transaction monitoring and account mapping interface
+- Includes easy file and transaction monitoring
+- Includes account mapping interface
 
 ```bash
 docker pull ghcr.io/shrestha-bishal/sure-sync
@@ -113,7 +114,7 @@ The service will automatically process any OFX files in the **consume/** folder.
 - Processed files are moved to `processed/` and failures to `failed/`.
 - Account mappings are managed through the web dashboard.
 
-### Web Dashboard
+### Web Dashboard (optional)
 - Access the dashboard at `http://localhost:9000` or your configured port
 - Use **Accounts** to add mapped bank accounts
 - Dashboard also shows processing statistics and current app state
