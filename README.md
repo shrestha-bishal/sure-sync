@@ -1,5 +1,5 @@
 # sure-sync
-Sync OFX transactions files to the Sure (~~Maybe~~) Finance.
+**Privacy-first, Docker-based local ingestion pipeline for syncing OFX transaction files into the Sure (~~Maybe~~) Finance.**
 
 `Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local.
 
@@ -23,6 +23,41 @@ The current release includes a web dashboard for live status, processing statist
 - Web dashboard for monitoring stats and managing account mappings
 - Persistent state storage in a host-mounted data directory
 - Secure local credentials via `.env`
+
+## Components
+`Sure Sync` is designed with a modular architecture where the ingestion worker and web dashboard can run independently.
+- **worker** – Handles OFX ingestion, parsing, deduplication, and syncing to Sure.
+> View the latest Docker image: [ghcr.io/shrestha-bishal/sure-sync-worker:latest](https://ghcr.io/shrestha-bishal/sure-sync-worker:latest)
+
+- **web (optional)** – Provides monitoring, logs, and account mapping UI.
+> View the latest Docker image: [ghcr.io/shrestha-bishal/sure-sync-web:latest](https://ghcr.io/shrestha-bishal/sure-sync-web:latest)
+
+## Deployment Modes
+### **Standalone Mode (worker)**: 
+Runs only the ingestion worker without the UI.
+- Headless execution
+- Ideal for servers or background processing
+- No dashboard required
+
+```bash
+docker pull ghcr.io/shrestha-bishal/sure-sync-worker:latest
+```
+
+### Full Stack Mode (worker + web): 
+Runs both worker and web dashboard via Docker Compose.
+- Worker + UI together
+- Includes easy file and transaction monitoring and account mapping interface
+- Provides account mapping interface
+
+```bash
+docker pull ghcr.io/shrestha-bishal/sure-sync
+```
+or 
+
+```bash
+docker pull ghcr.io/shrestha-bishal/sure-sync-worker:latest
+docker pull ghcr.io/shrestha-bishal/sure-sync-web:latest
+```
 
 ## Prerequisites
 - Docker
