@@ -1,7 +1,7 @@
 # sure-sync
 **Privacy-first, Docker-based local ingestion pipeline for syncing OFX transaction files into the Sure (~~Maybe~~) Finance.**
 
-`Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local.
+`Sure Sync` is a Docker-based, localised automation service that simplifies importing bank transactions into the ~~Maybe~~ `Sure` finance platform. It is ideal for users whose banks do not provide public APIs, **offering a secure, file-driven workflow for financial data while keeping all sensitive credentials, configuration, and data local**.
 
 The current release includes a web dashboard for live status, processing statistics, and account mapping management.
 
