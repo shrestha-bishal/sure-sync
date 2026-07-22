@@ -26,7 +26,7 @@ let success = 0;
 let failed = 0;
 let duplicate = 0;
 
-async function loadTransactions() {
+async function loadTransactions(shouldAnimate) {
     try {
         let url = '/api/transactions';
 
@@ -74,7 +74,9 @@ async function loadTransactions() {
 
             const row = document.createElement('tr');
             row.classList.add(statusClass);
-            row.classList.add('new-row');
+            if (shouldAnimate) {
+                row.classList.add('new-row');
+            }
 
             const amount = new Intl.NumberFormat('en-AU', {
                 style: 'currency',
@@ -95,7 +97,9 @@ async function loadTransactions() {
 
             total++;
 
-            await new Promise(r => setTimeout(r, 120));
+            if (shouldAnimate) {
+                await new Promise(r => setTimeout(r, 120));
+            }
         }
 
         document.getElementById('uploads-total').innerText = total;
@@ -150,10 +154,10 @@ async function saveAccount() {
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
     populateSureAccountNames();
-    loadTransactions();
+    loadTransactions(false);
     loadAccountSync();
 
-    setInterval(loadTransactions, pollingInterval);
+    setInterval(() => loadTransactions(true), pollingInterval);
     setInterval(loadAccountSync, pollingInterval);
 });
 
