@@ -12,7 +12,7 @@ The current release includes a web dashboard for live status, processing statist
 - Account mapping – Maps bank accounts to Sure accounts using ~~a user-defined YAML configuration (<v2.0.0)~~ dashboard.
 - Deduplication – Checks for and skips transactions that have already been processed to prevent duplicates.
 - Transaction creation – Creates new transactions in ~~Maybe~~ Sure automatically.
-- Archiving – Moves processed OFX files to a local archive folder for record-keeping in a bank/account/year/month hierarchy with a transaction date-range filename.
+- Archiving – Moves processed OFX files to a local archive folder for record-keeping in a `bank/account/year/month` hierarchy with a `transaction date-range` filename.
 - Localised control – Users maintain full control of credentials, configuration, and data without storing secrets in the repository.
 
 ## Features
