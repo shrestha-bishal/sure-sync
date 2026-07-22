@@ -1,7 +1,7 @@
 import os
 import time
 from core.helpers.logger import log
-from core.helpers.file import move, read_json, write_json
+from core.helpers.file import move, archive_file
 from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
 from core.services.transaction_service import truncate_transactions
@@ -10,7 +10,6 @@ from core.models.transaction import Transaction
 from core.models.stats import AppStats
 from core.services.account_service import get_accounts, upsert_account_sync
 from core.services.transaction_service import create_transaction
-from datetime import datetime
 from parsers.parser import Parser
 
 # Api validations
@@ -83,8 +82,6 @@ while True:
             continue
 
         file_path = os.path.join(CONSUME_PATH, file_name)
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        new_file_name = f"{timestamp} {file_name}"
 
         # Skip directories (processed/, failed/)
         if not os.path.isfile(file_path):
@@ -96,7 +93,10 @@ while True:
         try:
             parsed_data = parser.parse(file_path)
             log(f"Parsed data from {file_name}")
-            log(f"{parsed_data}")
+
+            account_name = None
+            bank_name = None
+            transaction_dates = []
 
             for data in parsed_data:
                 bank_id = data.get("bank_id")
@@ -106,9 +106,12 @@ while True:
 
                 if not mapping:
                     log(f"Account {key} not mapped. Skipping.")
-                    continue
+                    raise ValueError(f"Account {key} is not mapped.")
                 
                 sure_account_id = mapping.sure_account_id
+                account_name = mapping.account_name
+                bank_name = mapping.bank_name
+                transaction_dates.append(data.get("date"))
 
                 transaction = Transaction.from_ofx_data(
                     sure_account_id=sure_account_id,
@@ -118,17 +121,49 @@ while True:
                 create_transaction(mapping.id, transaction, result)
                 upsert_account_sync(mapping.id)
 
-            move(file_path, os.path.join(PROCESSED_DIR, new_file_name))
+            from_date = min(transaction_dates)
+            to_date = max(transaction_dates)
+
+            move(
+                file_path,
+                archive_file(
+                    PROCESSED_DIR,
+                    bank_name,
+                    account_name,
+                    file_name,
+                    from_date,
+                    to_date
+                )
+            )
+
             stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
 
         except ValueError as e:
             log(f"Unsupported file {file_name}: {e}")
-            move(file_path, os.path.join(FAILED_DIR, new_file_name))
+            move(
+                file_path,
+                archive_file(
+                    FAILED_DIR,
+                    bank_name,
+                    account_name,
+                    file_name
+                )
+            )
+
             stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
         except Exception as e:
             log(f"Error processing {file_name}: {e}")
-            move(file_path, os.path.join(FAILED_DIR, new_file_name))
+            move(
+                file_path,
+                archive_file(
+                    FAILED_DIR,
+                    bank_name,
+                    account_name,
+                    file_name
+                )
+            )
+
             stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
     time.sleep(LOOKUP_INTERVAL)
