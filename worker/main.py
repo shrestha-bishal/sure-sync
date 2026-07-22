@@ -1,8 +1,10 @@
 import os
 import time
+from watchdog.observers.polling import PollingObserver as Observer
+from handlers.ofx_handler import OFXHandler
 from core.helpers.logger import log
 from core.helpers.file import move, archive_file
-from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, LOOKUP_INTERVAL, API_URL, API_KEY, DATA_PATH
+from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
 from core.services.transaction_service import truncate_transactions
 from core.clients.api_client import ApiClient
@@ -30,7 +32,6 @@ os.makedirs(FAILED_DIR, exist_ok=True)
 log(f"Consume directory   : {CONSUME_PATH}")
 log(f"Processed directory : {CONSUME_PATH}/processed")
 log(f"Failed directory    : {CONSUME_PATH}/failed")
-log(f"Scan interval       : {LOOKUP_INTERVAL}s")
 
 parser = Parser()
 api_client = ApiClient(base_url=API_URL, api_key=API_KEY)
@@ -71,101 +72,112 @@ stats = AppStats.load(os.path.join(DATA_PATH, "stats.json"), valid_mappings)
 stats.save(os.path.join(DATA_PATH, "stats.json"))
 
 # Consuming
-while True:
-    if not os.path.exists(CONSUME_PATH):
-        log(f"Consume path does not exist: {CONSUME_PATH}")
-        time.sleep(LOOKUP_INTERVAL)
-        continue
+def process_file(file_path):
+    file_name = os.path.basename(file_path)
 
-    for file_name in os.listdir(CONSUME_PATH):
-        if file_name.startswith("."):
-            continue
+    log(f"Processing file: {file_name}")
 
-        file_path = os.path.join(CONSUME_PATH, file_name)
+    account_name = None
+    bank_name = None
+    from_date = None
+    to_date = None
+    transaction_dates = []
 
-        # Skip directories (processed/, failed/)
-        if not os.path.isfile(file_path):
-            continue
+    # Processing the data
+    try:
+        parsed_data = parser.parse(file_path)
+        log(f"Parsed data from {file_name}")
 
-        log(f"Processing file: {file_name}")
+        for data in parsed_data:
+            bank_id = data.get("bank_id")
+            account_id = data.get("account_id")
+            key = f"{bank_id}:{account_id}"
+            mapping = valid_mappings.get(key)
 
-        # Processing the data
-        try:
-            parsed_data = parser.parse(file_path)
-            log(f"Parsed data from {file_name}")
+            if not mapping:
+                log(f"Account {key} not mapped. Skipping.")
+                raise ValueError(f"Account {key} is not mapped.")
+            
+            sure_account_id = mapping.sure_account_id
+            account_name = mapping.account_name
+            bank_name = mapping.bank_name
+            transaction_dates.append(data.get("date"))
 
-            account_name = None
-            bank_name = None
-            from_date = None
-            to_date = None
-            transaction_dates = []
+            transaction = Transaction.from_ofx_data(
+                sure_account_id=sure_account_id,
+                data=data)
 
-            for data in parsed_data:
-                bank_id = data.get("bank_id")
-                account_id = data.get("account_id")
-                key = f"{bank_id}:{account_id}"
-                mapping = valid_mappings.get(key)
+            result = api_client.create_transaction(transaction=transaction)
+            create_transaction(mapping.id, transaction, result)
+            upsert_account_sync(mapping.id)
 
-                if not mapping:
-                    log(f"Account {key} not mapped. Skipping.")
-                    raise ValueError(f"Account {key} is not mapped.")
-                
-                sure_account_id = mapping.sure_account_id
-                account_name = mapping.account_name
-                bank_name = mapping.bank_name
-                transaction_dates.append(data.get("date"))
+        from_date = min(transaction_dates)
+        to_date = max(transaction_dates)
 
-                transaction = Transaction.from_ofx_data(
-                    sure_account_id=sure_account_id,
-                    data=data)
-
-                result = api_client.create_transaction(transaction=transaction)
-                create_transaction(mapping.id, transaction, result)
-                upsert_account_sync(mapping.id)
-
-            from_date = min(transaction_dates)
-            to_date = max(transaction_dates)
-
-            move(
-                file_path,
-                archive_file(
-                    PROCESSED_DIR,
-                    bank_name,
-                    account_name,
-                    file_name,
-                    from_date,
-                    to_date
-                )
+        move(
+            file_path,
+            archive_file(
+                PROCESSED_DIR,
+                bank_name,
+                account_name,
+                file_name,
+                from_date,
+                to_date
             )
+        )
 
-            stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
+        stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
 
-        except ValueError as e:
-            log(f"Unsupported file {file_name}: {e}")
-            move(
-                file_path,
-                archive_file(
-                    FAILED_DIR,
-                    bank_name,
-                    account_name,
-                    file_name
-                )
+    except ValueError as e:
+        log(f"Unsupported file {file_name}: {e}")
+        move(
+            file_path,
+            archive_file(
+                FAILED_DIR,
+                bank_name,
+                account_name,
+                file_name
             )
+        )
 
-            stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
+        stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
-        except Exception as e:
-            log(f"Error processing {file_name}: {e}")
-            move(
-                file_path,
-                archive_file(
-                    FAILED_DIR,
-                    bank_name,
-                    account_name,
-                    file_name
-                )
+    except Exception as e:
+        log(f"Error processing {file_name}: {e}")
+        move(
+            file_path,
+            archive_file(
+                FAILED_DIR,
+                bank_name,
+                account_name,
+                file_name
             )
+        )
 
-            stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
+        stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
-    time.sleep(LOOKUP_INTERVAL)
+handler = OFXHandler(
+    process_file
+)
+
+observer = Observer()
+
+observer.schedule(
+    handler,
+    CONSUME_PATH,
+    recursive=False
+)
+
+observer.start()
+
+log(f"Watching directory: {CONSUME_PATH}")
+
+
+try:
+    while True:
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    observer.stop()
+
+observer.join()
