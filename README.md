@@ -98,7 +98,6 @@ Edit `.env` to set your Sure API credentials and folder paths. The main `.env` v
 | `DATA_PATH` | Host folder for persistent state and stats | `./data/` |
 | `API_URL` | Sure API base URL | `http://host.docker.internal:3000/api/v1/` |
 | `API_KEY` | Sure API key with read/write access | `your-api-key` |
-| `LOOKUP_INTERVAL` | Poll interval for scanning files (seconds) | `5` |
 
 > To generate an API key in ~~Maybe~~ Sure, navigate to **Accounts > Settings > API Key**, select **Create New Key**, choose **Read / Write** permissions, and save the generated API key and copy the API base URL up to `/api/v1/`.
 
