@@ -96,6 +96,8 @@ while True:
 
             account_name = None
             bank_name = None
+            from_date = None
+            to_date = None
             transaction_dates = []
 
             for data in parsed_data:

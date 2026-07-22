@@ -31,7 +31,7 @@ def read_json(file_path: str) -> dict:
         log(f"Error reading JSON from {file_path}: {e}")
         return {}
 
-def archive_file(base_dir, bank_name, account_name, file_name, from_date, to_date):
+def archive_file(base_dir, bank_name, account_name, file_name, from_date=None, to_date=None):
     now = datetime.now()
 
     archive_dir = os.path.join(
@@ -44,13 +44,16 @@ def archive_file(base_dir, bank_name, account_name, file_name, from_date, to_dat
 
     os.makedirs(archive_dir, exist_ok=True)
 
-    date_range = (
-        f"{from_date.strftime('%d%b%Y')}-"
-        f"{to_date.strftime('%d%b%Y')}"
-    )
-
-    name, ext = os.path.splitext(file_name)
-    new_file_name = f"Transactions {date_range}{ext}"
+    if from_date is not None and to_date is not None:
+        date_range = (
+            f"{from_date.strftime('%d%b%Y')}-"
+            f"{to_date.strftime('%d%b%Y')}"
+        )
+        _, ext = os.path.splitext(file_name)
+        new_file_name = f"Transactions {date_range}{ext}"
+    else:
+        timestamp = now.strftime("%Y%m%d_%H%M%S")
+        new_file_name = f"Failed {timestamp} {file_name}"
 
     return os.path.join(
         archive_dir,
