@@ -10,8 +10,8 @@ services:
       - PROCESSED_DIR=/app/consume/processed
       - FAILED_DIR=/app/consume/failed
     volumes:
-      - ${CONSUME_PATH}:/app/consume
-      - ${DATA_PATH}:/app/data
+      - "${CONSUME_PATH}:/app/consume"
+      - "${DATA_PATH}:/app/data"
     restart: unless-stopped
 
   web:
@@ -22,7 +22,7 @@ services:
     ports:
       - "9000:8000"
     volumes:
-      - ${DATA_PATH}:/app/data
+      - "${DATA_PATH}:/app/data"
     restart: unless-stopped
     depends_on:
       - worker
