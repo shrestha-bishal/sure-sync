@@ -25,7 +25,7 @@ services:
     ports:
       - "9000:8000"
     volumes:
-      - ${DATA_PATH}:/app/data
+      - "${DATA_PATH}:/app/data"
     restart: unless-stopped
     depends_on:
       - worker
