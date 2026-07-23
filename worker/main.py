@@ -74,20 +74,23 @@ stats.save(os.path.join(DATA_PATH, "stats.json"))
 # Consuming
 def process_file(file_path):
     file_name = os.path.basename(file_path)
-
     log(f"Processing file: {file_name}")
+
+    parsed_data = parser.parse(file_path)
+    log(f"Parsed data from {file_name}")
 
     account_name = None
     bank_name = None
-    from_date = None
-    to_date = None
-    transaction_dates = []
+    transaction_dates = [
+        data.get("date")
+        for data in parsed_data
+    ]
 
+    from_date = min(transaction_dates)
+    to_date = max(transaction_dates)
+    
     # Processing the data
     try:
-        parsed_data = parser.parse(file_path)
-        log(f"Parsed data from {file_name}")
-
         for data in parsed_data:
             bank_id = data.get("bank_id")
             account_id = data.get("account_id")
@@ -109,10 +112,7 @@ def process_file(file_path):
 
             result = api_client.create_transaction(transaction=transaction)
             create_transaction(mapping.id, transaction, result)
-            upsert_account_sync(mapping.id)
-
-        from_date = min(transaction_dates)
-        to_date = max(transaction_dates)
+            upsert_account_sync(mapping.id) 
 
         move(
             file_path,
