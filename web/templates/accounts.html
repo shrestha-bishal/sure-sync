@@ -41,7 +41,7 @@
                                 <span
                                     class="meta-pill sure-account-name"
                                     data-sure-account-id="{{ account.sure_account_id }}"
-                                >
+                                >{{ sure_account_names.get(account.sure_account_id | string, '') }}</span>
                                 </span>
 
                                 <span class="meta-separator">•</span>
