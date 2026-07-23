@@ -51,15 +51,15 @@ class TransactionsClient:
         except ValueError:
             return None
 
-    def list_transactions_by_date(self, start_date, end_date, account_id=None, transaction_type=None):
+    def list_transactions_by_date(self, from_date, to_date, account_ids=None, transaction_type=None):
         params = {
-            "start_date": start_date,
-            "end_date": end_date,
+            "start_date": from_date.strftime("%Y-%m-%d"),
+            "end_date": to_date.strftime("%Y-%m-%d"),
             "per_page": 100,
         }
 
-        if account_id:
-            params["account_id"] = account_id
+        if account_ids:
+            params["account_ids[]"] = account_ids
 
         if transaction_type:
             params["type"] = transaction_type

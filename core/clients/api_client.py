@@ -15,6 +15,14 @@ class ApiClient(BaseClient):
     
     def get_transactions(self, params=None):
         return self.transaction_client.list_all(params=params)
+    
+    def get_transactions_by_date(self, from_date, to_date, account_ids=None, transaction_type=None):
+        return self.transaction_client.list_transactions_by_date(
+            from_date=from_date,
+            to_date=to_date,
+            account_ids=account_ids,
+            transaction_type=transaction_type
+        )
 
     def create_transaction(self, transaction: Transaction) -> CreationResult:
         return self.transaction_client.create(transaction)
