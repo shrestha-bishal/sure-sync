@@ -10,6 +10,29 @@ class TransactionsClient:
     def list(self, params=None):
         return self.base.get("/transactions", params=params)
 
+    def list_all(self, params=None):
+        params = params or {}
+
+        page = 1
+        per_page = params.get("per_page", 100)
+        
+        all_transactions = []
+
+        while True:
+            params["page"] = page
+            params["per_page"] = per_page
+
+            response = self.list(params=params)
+            transactions = response.get("transactions", [])
+            all_transactions.extend(transactions)
+
+            if len(transactions) < per_page:
+                break
+
+            page += 1
+
+        return all_transactions
+        
     def parse_amount(self, amount_str):
         # Remove currency symbols and delimiters, handle both "." and "," as decimal separators
         # Example: "$1,234.56" -> 1234.56, "1.234,56 €" -> 1234.56
