@@ -72,12 +72,17 @@ def settings(request: Request):
 def accounts(request: Request):
     sure_accounts = api_client.get_accounts()
     accounts = get_accounts()
+    sure_account_names = {
+        str(account["id"]): account["name"]
+        for account in sure_accounts
+    }
     return templates.TemplateResponse(
         request=request,
         name="accounts.html",
         context=
          {
             "sure_accounts": sure_accounts,
-            "accounts": accounts
+                "accounts": accounts,
+                "sure_account_names": sure_account_names
          }
         )

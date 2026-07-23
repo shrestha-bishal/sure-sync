@@ -121,36 +121,50 @@
 
             <div class="card uploads-card">
                 <div class="uploads-header">
-                    <div class="label">
-                        Recent Transaction Uploads
+                    <div class="uploads-heading">
+                        <div class="label">
+                            Recent Transaction Uploads
+                        </div>
+
+                        <div class="uploads-filter-status" id="uploads-filter-status" aria-live="polite">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span id="uploads-filter-label">All uploads</span>
+                        </div>
                     </div>
 
-                    <div class="uploads-stats">
+                    <div class="uploads-filter-controls">
+                        <span class="uploads-filter-caption">
+                            <i class="fa-solid fa-filter"></i>
+                            Filter by status
+                        </span>
 
-                        <div class="upload-stat total">
+                        <div class="uploads-stats">
+
+                        <button class="upload-stat total is-active" type="button" data-upload-filter="all" aria-pressed="true">
                             <span class="dot"></span>
                             <span class="text">Total</span>
                             <span class="value" id="uploads-total">0</span>
-                        </div>
+                        </button>
 
-                        <div class="upload-stat success">
+                        <button class="upload-stat success" type="button" data-upload-filter="success" aria-pressed="false">
                             <span class="dot"></span>
                             <span class="text">Success</span>
                             <span class="value" id="uploads-success">0</span>
-                        </div>
+                        </button>
 
-                        <div class="upload-stat failed">
+                        <button class="upload-stat failed" type="button" data-upload-filter="failed" aria-pressed="false">
                             <span class="dot"></span>
                             <span class="text">Failed</span>
                             <span class="value" id="uploads-failed">0</span>
-                        </div>
+                        </button>
 
-                        <div class="upload-stat duplicate">
+                        <button class="upload-stat duplicate" type="button" data-upload-filter="duplicate" aria-pressed="false">
                             <span class="dot"></span>
                             <span class="text">Duplicate</span>
                             <span class="value" id="uploads-duplicate">0</span>
-                        </div>
+                        </button>
 
+                        </div>
                     </div>
 
                 </div>
@@ -167,7 +181,15 @@
                             </tr>
                         </thead>
 
-                        <tbody id="uploads-tbody"></tbody>
+                        <tbody id="uploads-tbody">
+                            <tr class="uploads-empty" id="uploads-empty">
+                                <td colspan="5">
+                                    <i class="fa-regular fa-folder-open"></i>
+                                    <span id="uploads-empty-label">No uploads yet</span>
+                                    <button type="button" id="uploads-clear-filter">Show all uploads</button>
+                                </td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

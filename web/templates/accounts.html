@@ -3,6 +3,13 @@
 {% block title %}Accounts - Sure Sync{% endblock %}
 
 {% block content %}
+    <nav class="accounts-topbar">
+        <a href="/" class="back-dashboard-link">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Back to Dashboard</span>
+        </a>
+    </nav>
+
     <div class="settings-layout">
         <!-- LEFT SIDEBAR -->
         <aside class="sidebar">
@@ -41,7 +48,7 @@
                                 <span
                                     class="meta-pill sure-account-name"
                                     data-sure-account-id="{{ account.sure_account_id }}"
-                                >
+                                >{{ sure_account_names.get(account.sure_account_id | string, '') }}</span>
                                 </span>
 
                                 <span class="meta-separator">•</span>

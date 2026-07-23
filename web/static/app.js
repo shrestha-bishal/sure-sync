@@ -25,6 +25,39 @@ let total = 0;
 let success = 0;
 let failed = 0;
 let duplicate = 0;
+let activeUploadFilter = 'all';
+const uploadFilterLabels = {
+    all: 'All uploads',
+    success: 'Successful uploads',
+    failed: 'Failed uploads',
+    duplicate: 'Duplicate uploads'
+};
+
+function applyUploadFilter() {
+    const rows = document.querySelectorAll('#uploads-tbody tr[data-status]');
+
+    rows.forEach(row => {
+        row.hidden = activeUploadFilter !== 'all' && row.dataset.status !== activeUploadFilter;
+    });
+
+    const visibleRows = [...rows].some(row => !row.hidden);
+    const emptyRow = document.getElementById('uploads-empty');
+    const emptyLabel = document.getElementById('uploads-empty-label');
+    const clearFilter = document.getElementById('uploads-clear-filter');
+
+    emptyRow.hidden = visibleRows;
+    emptyLabel.innerText = activeUploadFilter === 'all'
+        ? 'No uploads yet'
+        : `No ${activeUploadFilter} uploads found`;
+    clearFilter.hidden = activeUploadFilter === 'all';
+    document.getElementById('uploads-filter-label').innerText = uploadFilterLabels[activeUploadFilter];
+
+    document.querySelectorAll('[data-upload-filter]').forEach(button => {
+        const isActive = button.dataset.uploadFilter === activeUploadFilter;
+        button.classList.toggle('is-active', isActive);
+        button.setAttribute('aria-pressed', String(isActive));
+    });
+}
 
 async function loadTransactions(shouldAnimate) {
     try {
@@ -74,6 +107,7 @@ async function loadTransactions(shouldAnimate) {
 
             const row = document.createElement('tr');
             row.classList.add(statusClass);
+            row.dataset.status = iconStatus;
             if (shouldAnimate) {
                 row.classList.add('new-row');
             }
@@ -94,6 +128,7 @@ async function loadTransactions(shouldAnimate) {
             `;
 
             tbody.prepend(row);
+            applyUploadFilter();
 
             total++;
 
@@ -153,6 +188,19 @@ async function saveAccount() {
 
 document.addEventListener('DOMContentLoaded', () => {
     updateStats();
+    document.querySelectorAll('[data-upload-filter]').forEach(button => {
+        button.addEventListener('click', () => {
+            const selectedFilter = button.dataset.uploadFilter;
+            activeUploadFilter = selectedFilter === activeUploadFilter
+                ? 'all'
+                : selectedFilter;
+            applyUploadFilter();
+        });
+    });
+    document.getElementById('uploads-clear-filter').addEventListener('click', () => {
+        activeUploadFilter = 'all';
+        applyUploadFilter();
+    });
     populateSureAccountNames();
     loadTransactions(false);
     loadAccountSync();
