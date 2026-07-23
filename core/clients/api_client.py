@@ -14,7 +14,7 @@ class ApiClient(BaseClient):
         return self.accounts_client.list()
     
     def get_transactions(self, params=None):
-        return self.transaction_client.list_all(params=params)
+        return self.transaction_client.list(params=params)
     
     def get_transactions_by_date(self, from_date, to_date, account_ids=None, transaction_type=None):
         return self.transaction_client.list_transactions_by_date(
