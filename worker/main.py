@@ -3,16 +3,15 @@ import time
 from watchdog.observers.polling import PollingObserver as Observer
 from handlers.ofx_handler import OFXHandler
 from core.helpers.logger import log
-from core.helpers.file import move, archive_file
 from core.config import CONSUME_PATH, PROCESSED_DIR, FAILED_DIR, API_URL, API_KEY, DATA_PATH
 from core.db import init_db
 from core.services.transaction_service import truncate_transactions
 from core.clients.api_client import ApiClient
-from core.models.transaction import Transaction
 from core.models.stats import AppStats
-from core.services.account_service import get_accounts, upsert_account_sync
-from core.services.transaction_service import create_transaction
+from core.services.account_service import get_accounts
+from processors.ofx_processor import OFXProcessor
 from parsers.parser import Parser
+from datetime import datetime
 
 # Api validations
 if not API_URL:
@@ -52,12 +51,14 @@ log(f"Found {len(account_mappings)} account mappings")
 
 # Validate mappings
 log("Validating account mappings against Sure accounts")
+
 valid_mappings = {}
 invalid_mappings = []
+
 for mapping in account_mappings:
-    sure_id = mapping.sure_account_id
     key = f"{mapping.bank_id}:{mapping.account_id}"
-    if sure_id in sure_account_ids:
+
+    if mapping.sure_account_id in sure_account_ids:
         valid_mappings[key] = mapping
 
     else:
@@ -65,100 +66,28 @@ for mapping in account_mappings:
         invalid_mappings.append(key)
 
 log(f"{len(valid_mappings)} valid account mappings will be used")
+
 if invalid_mappings:
     log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
 
 stats = AppStats.load(os.path.join(DATA_PATH, "stats.json"), valid_mappings)
 stats.save(os.path.join(DATA_PATH, "stats.json"))
 
-# Consuming
-def process_file(file_path):
-    file_name = os.path.basename(file_path)
-
-    log(f"Processing file: {file_name}")
-
-    account_name = None
-    bank_name = None
-    from_date = None
-    to_date = None
-    transaction_dates = []
-
-    # Processing the data
-    try:
-        parsed_data = parser.parse(file_path)
-        log(f"Parsed data from {file_name}")
-
-        for data in parsed_data:
-            bank_id = data.get("bank_id")
-            account_id = data.get("account_id")
-            key = f"{bank_id}:{account_id}"
-            mapping = valid_mappings.get(key)
-
-            if not mapping:
-                log(f"Account {key} not mapped. Skipping.")
-                raise ValueError(f"Account {key} is not mapped.")
-            
-            sure_account_id = mapping.sure_account_id
-            account_name = mapping.account_name
-            bank_name = mapping.bank_name
-            transaction_dates.append(data.get("date"))
-
-            transaction = Transaction.from_ofx_data(
-                sure_account_id=sure_account_id,
-                data=data)
-
-            result = api_client.create_transaction(transaction=transaction)
-            create_transaction(mapping.id, transaction, result)
-            upsert_account_sync(mapping.id)
-
-        from_date = min(transaction_dates)
-        to_date = max(transaction_dates)
-
-        move(
-            file_path,
-            archive_file(
-                PROCESSED_DIR,
-                bank_name,
-                account_name,
-                file_name,
-                from_date,
-                to_date
-            )
-        )
-
-        stats.on_success(file_name, os.path.join(DATA_PATH, "stats.json"))
-
-    except ValueError as e:
-        log(f"Unsupported file {file_name}: {e}")
-        move(
-            file_path,
-            archive_file(
-                FAILED_DIR,
-                bank_name,
-                account_name,
-                file_name
-            )
-        )
-
-        stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
-
-    except Exception as e:
-        log(f"Error processing {file_name}: {e}")
-        move(
-            file_path,
-            archive_file(
-                FAILED_DIR,
-                bank_name,
-                account_name,
-                file_name
-            )
-        )
-
-        stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
-
-handler = OFXHandler(
-    process_file
+# ofx processor
+processor = OFXProcessor(
+    parser=parser,
+    api_client=api_client,
+    valid_mappings=valid_mappings,
+    stats=stats
 )
+
+# Watcher
+handler = OFXHandler(
+    processor.process
+)
+
+# Process files already waiting
+handler.process_existing_files(CONSUME_PATH)
 
 observer = Observer()
 
