@@ -32,7 +32,7 @@ class TransactionsClient:
             page += 1
 
         return all_transactions
-        
+
     def parse_amount(self, amount_str):
         # Remove currency symbols and delimiters, handle both "." and "," as decimal separators
         # Example: "$1,234.56" -> 1234.56, "1.234,56 €" -> 1234.56
@@ -50,6 +50,21 @@ class TransactionsClient:
             return float(cleaned)
         except ValueError:
             return None
+
+    def list_transactions_by_date(self, start_date, end_date, account_id=None, transaction_type=None):
+        params = {
+            "start_date": start_date,
+            "end_date": end_date,
+            "per_page": 100,
+        }
+
+        if account_id:
+            params["account_id"] = account_id
+
+        if transaction_type:
+            params["type"] = transaction_type
+
+        return self.list_all(params=params)
 
     def exists(self, transaction: Transaction) -> bool:
         amount = float(transaction.amount)
