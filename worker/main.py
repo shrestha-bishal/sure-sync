@@ -53,12 +53,14 @@ log(f"Found {len(account_mappings)} account mappings")
 
 # Validate mappings
 log("Validating account mappings against Sure accounts")
+
 valid_mappings = {}
 invalid_mappings = []
+
 for mapping in account_mappings:
-    sure_id = mapping.sure_account_id
     key = f"{mapping.bank_id}:{mapping.account_id}"
-    if sure_id in sure_account_ids:
+
+    if mapping.sure_account_id in sure_account_ids:
         valid_mappings[key] = mapping
 
     else:
@@ -66,6 +68,7 @@ for mapping in account_mappings:
         invalid_mappings.append(key)
 
 log(f"{len(valid_mappings)} valid account mappings will be used")
+
 if invalid_mappings:
     log(f"{len(invalid_mappings)} account mapping(s) are invalid and will be skipped")
 
@@ -167,10 +170,12 @@ def process_file(file_path):
 
         stats.on_failure(file_name, e, os.path.join(DATA_PATH, "stats.json"))
 
+# Watcher
 handler = OFXHandler(
     process_file
 )
 
+# Process files already waiting
 handler.process_existing_files(CONSUME_PATH)
 
 observer = Observer()
