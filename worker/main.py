@@ -13,6 +13,7 @@ from core.models.stats import AppStats
 from core.services.account_service import get_accounts, upsert_account_sync
 from core.services.transaction_service import create_transaction
 from parsers.parser import Parser
+from datetime import datetime
 
 # Api validations
 if not API_URL:
@@ -88,7 +89,17 @@ def process_file(file_path):
 
     from_date = min(transaction_dates)
     to_date = max(transaction_dates)
-    
+
+    account_ids = {data.get("account_id") for data in parsed_data}
+
+    existing_transactions = api_client.get_transactions_by_date(
+        from_date=from_date,
+        to_date=to_date,
+        account_ids=list(account_ids)
+    )
+
+    log(existing_transactions)
+
     # Processing the data
     try:
         for data in parsed_data:
@@ -159,6 +170,8 @@ def process_file(file_path):
 handler = OFXHandler(
     process_file
 )
+
+handler.process_existing_files(CONSUME_PATH)
 
 observer = Observer()
 
